@@ -26,7 +26,7 @@ public class SendMail {
 
 		// Sender mail address
 		final String from = prefs.getUserAdress();
-		System.out.println("from: " +from);
+		System.out.println("from: " + from);
 
 		// Get system properties
 		final Properties properties = System.getProperties();

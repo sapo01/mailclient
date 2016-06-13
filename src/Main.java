@@ -1,9 +1,25 @@
 
+import javax.swing.JFrame;
+
 public class Main {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	private static JFrame frame;
 
+	public static void main(String[] args) {
+		
+		JFrame frame = new JFrame("Mailclient");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1000, 1000);
+        frame.setVisible(true);
+        frame.setResizable(false);
+	}
+
+	public static JFrame getFrame() {
+		return frame;
+	}
+
+	public static void setFrame(JFrame frame) {
+		Main.frame = frame;
 	}
 
 }
