@@ -1,3 +1,5 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -8,7 +10,7 @@ import javax.mail.internet.*;
  *
  * @version 02-APR-2015
  */
-public class SendMail {
+public class SendMail  {
 	/**
 	 * Constructs and sends a simple email.
 	 *
@@ -19,7 +21,7 @@ public class SendMail {
 		// Receiver mail address
 		final String to = args[0]; // "------@------.ch" ;
 		System.out.println("to: " + to);
-		// Username and password
+		//user name and password
 		final MailPreferences prefs = new MailPreferences();
 		final String username = prefs.getUserName();
 		final String password = prefs.getPassword();
