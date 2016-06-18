@@ -1,70 +1,73 @@
+package view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.*;
 import javax.swing.JTextField;
 
-public class SendView extends JFrame {
+public class ReadView extends JFrame {
 	
-    JTextField toField = new JTextField();
-    JTextField ccField = new JTextField();
-    JTextField subjectField = new JTextField();
-    JTextArea contentTextArea = new JTextArea();
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1;
+   
+    //set font for JLabel
+	JLabel fromField = new JLabel("sandro-portner@hotmail.com");
+	JLabel subjectField = new JLabel("TestMail");
+	JLabel contentTextArea = new JLabel("Bla bla bla lium suas usaun n efuhua DWNu ");
+	
+	//create different fonts
+	Font infoFont = new Font("Courier", Font.ITALIC,12);
+	Font msgFont = new Font("Courier",Font.PLAIN,12);
+	
     public static void main(String[] args) {
-    SwingUtilities.invokeLater(new Runnable() {
-        @Override
-        public void run() {
-        	SendView newMail = new SendView();
-            newMail.setVisible(true);
-        }
-    });    
+    	SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+            	ReadView newMail = new ReadView();
+                newMail.setVisible(true);
+            }
+        });
     }
-
-    public SendView() {
+  
+    public ReadView() {
         Initialize();
+
     }
    
 private void Initialize() {
-        setTitle("New Mail");
+        setTitle("Reader");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(new Dimension(400, 280));
 
         getContentPane().setLayout(new BorderLayout());
 
+        fromField.setFont(infoFont);
+        subjectField.setFont(infoFont);
+        
         // Header Panel
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new GridLayout(6, 2));
-      
-
-        headerPanel.add(new JLabel("To:"));
-        headerPanel.add(toField);
-        
-        headerPanel.add(new JLabel("Cc:"));
-        headerPanel.add(ccField);
+        headerPanel.add(new JLabel("From:"));
+        headerPanel.add(fromField);
 
         headerPanel.add(new JLabel("Subject:"));
         headerPanel.add(subjectField);
-
- //     headerPanel.add(new JLabel("STMP Server:"));
- //     headerPanel.add(mailServer);
- //     mailServer.addItem("smtp.gmail.com");
- //
- //     headerPanel.add(usernameField);
- //     headerPanel.add(new JLabel("Password:"));
- //     headerPanel.add(passwordField);
-
-        
+       
+       
         // Body Panel
         JPanel bodyPanel = new JPanel();
         bodyPanel.setLayout(new BorderLayout());
         bodyPanel.add(new JLabel("Message:"), BorderLayout.NORTH);
+        contentTextArea.setFont(msgFont);
         bodyPanel.add(contentTextArea, BorderLayout.CENTER);
 
         JPanel footerPanel = new JPanel();
         footerPanel.setLayout(new BorderLayout());
-        JButton sendMailButton = new JButton("Send E-mail");
+        JButton sendMailButton = new JButton("Close");
         footerPanel.add(sendMailButton, BorderLayout.SOUTH);
 
         //add the panels to the frame
