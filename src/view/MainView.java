@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListCellRenderer;
@@ -16,15 +17,17 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import control.ButtonActionListener;
+
 @SuppressWarnings("serial")
 public class MainView extends JFrame {
-			    
-
+	final static MessageList msg = new MessageList();
+	JList<String> list = new JList<String>(msg);
+	
+	ActionListener listener = new ButtonActionListener(this);
+	
 	@SuppressWarnings("serial")
 	public  void setUp() {
-		
-		final MessageList msg = new MessageList();
-		JList<String> list = new JList<String>(msg);
 		
 		
 		list.setCellRenderer(new DefaultListCellRenderer() {
@@ -62,11 +65,16 @@ public class MainView extends JFrame {
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 		
-		//updateButton.addActionListener(event ->);
-		removeButton.addActionListener(event ->msg.remove());
-		settingsButton.addActionListener(event ->settings());
+		updateButton.setActionCommand("updateMails");
+		updateButton.addActionListener(listener);
 		
-		JFrame frame = new JFrame("ListExample");
+		settingsButton.setActionCommand("openSettings");
+		settingsButton.addActionListener(listener);
+		
+		removeButton.setActionCommand("deleteMail");
+		removeButton.addActionListener(listener);
+		
+		JFrame frame = new JFrame("Mailclient");
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -78,9 +86,9 @@ public class MainView extends JFrame {
         frame.setVisible(true);
         
 	}
-	public static void settings() {
-     	SettingsView settings = new SettingsView();
-     	settings.setVisible(true);
-     }
+    //TODO: Move to Control -> This is not VIEW..
+	public static MessageList getMsgList(){
+		return msg;
+	}
 
 }

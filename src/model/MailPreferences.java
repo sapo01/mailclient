@@ -1,11 +1,15 @@
+package model;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 /**
  * @author Sandro Portner
- * @author Janick Rüegger
+ * @author Janick Rueegger
  */
+
 public class MailPreferences {
 
     //At program startup, generate a single Instance of this class
@@ -27,7 +31,7 @@ public class MailPreferences {
 
     private Preferences prefs;
 
-    private MailPreferences () {
+    public MailPreferences () {
         // This will define a node in which the preferences can be stored
         prefs = Preferences.userRoot().node(this.getClass().getName());
     }
@@ -66,7 +70,7 @@ public class MailPreferences {
             prefs.put(inboxPath, new File(".").getCanonicalPath() + "\\" + userAddr + "_inbox.json");
         }
         catch (IOException e) {
-            Log.getLogger().warning("Unable to get user inbox file path", e);
+            Logger.getLogger("Unable to get user inbox file path");
         }
     }
 

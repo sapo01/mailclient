@@ -1,15 +1,17 @@
+package model;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 /**
  * @author Sandro Portner
- * @author Janick Rüegger
+ * @author Janick Rï¿½egger
  */
 public class Email {
     //TODO: Implement central storage of id, auto incrementing
     private int               id;
     private String            sender;
+    
     //TODO: Refactor to either java.util.List or to String (comma separated, possible?)
     private List              recipents;
     private String            subject;

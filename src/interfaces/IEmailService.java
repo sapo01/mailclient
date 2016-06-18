@@ -1,9 +1,12 @@
+package interfaces;
 
 import java.util.ArrayList;
 
+import model.Email;
+
 /**
  * @author Sandro Portner
- * @author Janick Rüegger
+ * @author Janick Rï¿½egger
  */
 public interface IEmailService
 {

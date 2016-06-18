@@ -1,17 +1,24 @@
+package control;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+
+import interfaces.IEmailService;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
 import java.awt.List;
 
+import model.Email;
+import model.MailPreferences;
 /**
  * @author Sandro Portner
- * @author Janick Rüegger
+ * @author Janick Rueegger
  */
 public class EmailService implements IEmailService {
 
@@ -65,10 +72,10 @@ public class EmailService implements IEmailService {
 
         }
         catch (NoSuchProviderException e) {
-            Log.getLogger().warning("Connection to POP3 Inbox failed", e);
+            Logger.getLogger("Connection to POP3 Inbox failed");
         }
         catch (MessagingException e) {
-            Log.getLogger().warning("Messages in POP3 Inbox could not be accessed", e);
+            Logger.getLogger("Messages in POP3 Inbox could not be accessed");
         }
         // After appending new Emails to inbox file, get all Emails from inbox file
         return getEmailsFromInboxFile();
@@ -151,16 +158,16 @@ public class EmailService implements IEmailService {
                 msg.setFlag(Flags.Flag.DELETED, true);
             }
             catch (MessagingException msgEx) {
-                Log.getLogger().warning("A message could not be stored to the JSON File", msgEx);
+                Logger.getLogger("A message could not be stored to the JSON File");
             }
             catch (IOException ioEX) {
-                Log.getLogger().warning("JSON File could not be written", ioEX);
+                Logger.getLogger("JSON File could not be written");
             }
         }
-        Log.getLogger().info("New messages stored to JSON");
+        Logger.getLogger("New messages stored to JSON");
     }
 
-    private static ArrayList<Email> getEmailsFromInboxFile () {
+    private static ArrayList<Email> getEmailsFromInboxFile() {
 
         ArrayList<JSONObject> jsonObjects  = new ArrayList<>();
         ArrayList<Email>      emailObjects = new ArrayList<>();
@@ -189,10 +196,10 @@ public class EmailService implements IEmailService {
             }
         }
         catch (ParseException parseEx) {
-            Log.getLogger().warning("JSON Object from file could not be parsed", parseEx);
+            Logger.getLogger("JSON Object from file could not be parsed");
         }
         catch (IOException ioEx) {
-            Log.getLogger().warning("JSON File could not be opened for readout", ioEx);
+            Logger.getLogger("JSON File could not be opened for readout");
         }
 
         return emailObjects;
@@ -259,10 +266,10 @@ public class EmailService implements IEmailService {
                 transport.close();
             }
 
-            Log.getLogger().info("Message with Subject: \"" + subject + "\" sent");
+            Logger.getLogger("Message with Subject: \"" + subject + "\" sent");
         }
         catch (MessagingException e) {
-            Log.getLogger().warning("Message not sent!", e);
+            Logger.getLogger("Message not sent!");
         }
     }
 }

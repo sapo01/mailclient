@@ -3,6 +3,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+
+import control.ButtonActionListener;
 
 import javax.swing.*;
 import javax.swing.JTextField;
@@ -14,7 +17,9 @@ public class SettingsView extends JFrame {
     JPasswordField password = new JPasswordField(20);
     JTextField host = new JTextField();
     JTextField  port = new JTextField();
-
+    
+    ActionListener listener = new ButtonActionListener(this);
+    
     public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
         @Override
@@ -66,10 +71,12 @@ private void initialize() {
         getContentPane().add(body, BorderLayout.CENTER);
         getContentPane().add(footerPanel, BorderLayout.SOUTH);
         
-        //Save function not exists.
-        //saveExit.addActionListener(event ->save());
+        //Save function not exists until now.
+        saveExit.setActionCommand("saveSettings");
+        saveExit.addActionListener(listener);
         
-        discard.addActionListener(event -> this.setVisible(false));
+        discard.setActionCommand("discardSettings");
+        discard.addActionListener(listener);
        
     }
 
