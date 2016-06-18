@@ -3,6 +3,8 @@ import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 
+import model.MailPreferences;
+
 /**
  * A simple program for receiving mail messages from gmail using POP3S.
  *

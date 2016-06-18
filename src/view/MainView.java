@@ -1,27 +1,35 @@
 package view;
 
+import model.MessageList;
+
+import javax.mail.*;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
-public class MainView {
-	 
+@SuppressWarnings("serial")
+public class MainView extends JFrame {
+			    
+
 	@SuppressWarnings("serial")
-	public static void main(String[] args) {
+	public  void setUp() {
 		
-		final MyListClass model = new MyListClass();
-		JList<String> list = new JList<>(model);
+		final MessageList msg = new MessageList();
+		JList<String> list = new JList<String>(msg);
 		
 		
 		list.setCellRenderer(new DefaultListCellRenderer() {
-			    Component getListCellRendererComponent(JList<? extends String> list, String value, int index,
+			    @SuppressWarnings("unused")
+				Component getListCellRendererComponent(JList<? extends String> list, String value, int index,
 			        boolean isSelected, boolean cellHasFocus) {
 			          			         
 			        return this;
@@ -29,20 +37,34 @@ public class MainView {
 		});
 		
 		JPanel mainPanel = new JPanel(new BorderLayout());
+		
+		JLabel name = new JLabel("MailClient 1.0");
+		name.setFont(new Font(Font.DIALOG, Font.ITALIC, 20));
+		
+		JLabel preview = new JLabel(" ");
+		preview.setFont(new Font(Font.DIALOG, Font.ITALIC, 10));
+		
+		
+		mainPanel.add(name,BorderLayout.PAGE_START);
+		mainPanel.add(preview,BorderLayout.AFTER_LINE_ENDS);
 		mainPanel.add(list,BorderLayout.CENTER);
 		
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		
+		//Add the buttons to this page
+		JButton updateButton = new JButton("Get Mails");
 		JButton removeButton = new JButton("Delete");
 		JButton settingsButton = new JButton("Settings");
 		
+		buttonPanel.add(updateButton);
 		buttonPanel.add(removeButton);
 		buttonPanel.add(settingsButton);
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 		
-		removeButton.addActionListener(event ->model.remove());
-		settingsButton.addActionListener(event ->model.remove());
+		updateButton.addActionListener(event ->);
+		removeButton.addActionListener(event ->msg.remove());
+		settingsButton.addActionListener(event ->settings());
 		
 		JFrame frame = new JFrame("ListExample");
         
@@ -52,41 +74,13 @@ public class MainView {
         
         frame.add(mainPanel, BorderLayout.CENTER);
         
-        frame.setSize(250, 250);
+        frame.setSize(500, 500);
         frame.setVisible(true);
+        
 	}
-	
-	
-	
-	
-	@SuppressWarnings("serial")
-	static class MyListClass extends AbstractListModel<String>{
-		
-		int size = 1;
-
-		@Override
-		public String getElementAt(int index) {
-			return "#" + index;
-		}
-
-		@Override
-		public int getSize() {
-		return size;
-		}
-		
-		public void add(){
-			size++;
-			fireIntervalAdded(this,size-1,size-1);
-		}
-		public void remove(){
-			if(size>0){
-				size--;
-				fireIntervalRemoved(this,size,size);
-			}
-		}
-
-	}
-	     
-
+	public static void settings() {
+     	SettingsView settings = new SettingsView();
+     	settings.setVisible(true);
+     }
 
 }

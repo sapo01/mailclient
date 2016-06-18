@@ -34,11 +34,10 @@ public class ReadView extends JFrame {
     }
   
     public ReadView() {
-        Initialize();
-
+        initialize();
     }
    
-private void Initialize() {
+private void initialize() {
         setTitle("Reader");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(new Dimension(400, 280));
