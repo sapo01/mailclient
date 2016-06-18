@@ -1,6 +1,7 @@
 package view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.*;
@@ -8,7 +9,7 @@ import javax.swing.JTextField;
 
 public class SettingsView extends JFrame {
 	
-	//set the inputs for the userinformations
+	//set the inputs for the user informations
     JTextField mailAddress= new JTextField();
     JPasswordField password = new JPasswordField(20);
     JTextField host = new JTextField();
@@ -25,17 +26,18 @@ public class SettingsView extends JFrame {
     }
 
     public SettingsView() {
-        Initialize();
+        initialize();
     }
    
-private void Initialize() {
+private void initialize() {
+	
         setTitle("Settings");
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         setSize(new Dimension(600,280));
 
         getContentPane().setLayout(new BorderLayout());
 
-        // Body Panel
+        // Body
         JPanel body = new JPanel();
         body.setLayout(new GridLayout(6, 2));
 
@@ -51,21 +53,25 @@ private void Initialize() {
         body.add(new JLabel("Port:"));
         body.add(port);
 
- //     headerPanel.add(new JLabel("STMP Server:"));
- //     headerPanel.add(mailServer);
- //     mailServer.addItem("smtp.gmail.com");
- //
- //     headerPanel.add(usernameField);
- //     headerPanel.add(new JLabel("Password:"));
- //     headerPanel.add(passwordField);
-
-
+        //Footer
         JPanel footerPanel = new JPanel();
-        footerPanel.setLayout(new BorderLayout());
-        JButton sendMailButton = new JButton("Save and Exit");
-        footerPanel.add(sendMailButton, BorderLayout.SOUTH);
+        footerPanel.setLayout(new FlowLayout());
+        
+        JButton saveExit = new JButton("Save and Exit");
+        footerPanel.add(saveExit, BorderLayout.SOUTH);
 
+        JButton discard = new JButton("Discard");
+        footerPanel.add(discard, BorderLayout.EAST);
+        
         getContentPane().add(body, BorderLayout.CENTER);
         getContentPane().add(footerPanel, BorderLayout.SOUTH);
+        
+        //Save function not exists.
+        //saveExit.addActionListener(event ->save());
+        
+        discard.addActionListener(event -> this.setVisible(false));
+       
     }
+
+
 }

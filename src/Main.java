@@ -1,3 +1,5 @@
+import view.MainView;
+import view.SettingsView;
 
 import javax.swing.JFrame;
 
@@ -20,6 +22,10 @@ public class Main {
 
 	public static void setFrame(JFrame frame) {
 		Main.frame = frame;
-	}
 
+		// TODO Auto-generated method stub
+		MainView menu = new MainView();
+		menu.setUp();
+
+	}
 }

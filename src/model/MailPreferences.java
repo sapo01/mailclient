@@ -157,8 +157,8 @@ public class MailPreferences {
 		System.out.println(test.getUserAdress());
 		System.out.println(test.getPassword());
 		test.setUser(
-			  	"urs-martin.kuenzi@gmail.com", 
-				"urs-martin.kuenzi@gmail.com", 
+			  	"jsmailclient@gmail.com", 
+				"jsmailclient@gmail.com", 
 				"********");
 	}
 }
