@@ -62,7 +62,7 @@ public class MainView extends JFrame {
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 		
-		updateButton.addActionListener(event ->);
+		//updateButton.addActionListener(event ->);
 		removeButton.addActionListener(event ->msg.remove());
 		settingsButton.addActionListener(event ->settings());
 		
