@@ -32,6 +32,7 @@ public class MainView extends JFrame {
     JList<Email> inboxList = new JList<>(inboxListModel);
 	JScrollPane inboxPane = new JScrollPane(inboxList);
 
+	@SuppressWarnings("unchecked")
 	public MainView(MessageList msg){
 		testList.add(test);
 		testList.add(test1);
