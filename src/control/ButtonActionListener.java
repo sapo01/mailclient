@@ -4,40 +4,55 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
+import model.Email;
 import model.MessageList;
+import view.SendView;
 import view.SettingsView;
 
 public class ButtonActionListener implements ActionListener {
 	
-	private final JFrame frame;
+	private  JFrame frame;
+	private  Email email;
 	
-	public ButtonActionListener(JFrame inputFrame){
-		this.frame = inputFrame;
+	public ButtonActionListener(){
+	}
+	
+	public void setMail(final Email email){
+		this.email = email;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent input) {
-				String command = input.getActionCommand();
+				final String command = input.getActionCommand();
+				final SettingsView settings = view.SettingsView.getSettingsView();
+				
 				switch(command) {
-				case "saveSettings":break;
+				case "saveSettings":
+					
+					break;
 				case "discardSettings":
-					frame.setVisible(false);
+					settings.setVisible(false);
 			     	break;
 				case "deleteMail":
-					MessageList msg = view.MainView.getMsgList();
+					MessageList msg = main.Main.getMsgList();
 					msg.remove();
 					break;
 				case "openSettings":
-					SettingsView settings = new SettingsView();
 			     	settings.setVisible(true);
 			     	break;
-				case "updateMails":break;
+				case "updateMails":
+					main.Main.getMailService().getEmails();
+					break;
+				case "newMail":
+					SendView newMail = new SendView();
+			     	newMail.setVisible(true);
+			     	break;
+				case "sendMail":
+					main.Main.getMailService().sendMail(email);
+					break;
 				default: 
 					System.out.println("Command not exists");
 					break;
 				}
 	}
-	
-	
-
 }
