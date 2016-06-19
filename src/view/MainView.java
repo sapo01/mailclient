@@ -25,7 +25,7 @@ public class MainView extends JFrame {
 	//TESTING
 	private ArrayList<Email> testList = new ArrayList<Email>();
 		
-	Email test = new Email("Sender", "To ? ","Subject","Text");
+	Email test = new Email("Sender", "To ? ","Hallo","Text");
 	Email test1 = new Email("Sender2", "Recipients","Test","Test");
 	
 		

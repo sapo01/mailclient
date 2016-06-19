@@ -36,7 +36,7 @@ public class SendView extends JFrame {
 private void Initialize() {
         setTitle("New Mail");
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        setSize(new Dimension(600, 280));
+        setSize(new Dimension(600, 480));
 
         getContentPane().setLayout(new BorderLayout());
 

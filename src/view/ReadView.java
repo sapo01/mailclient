@@ -10,9 +10,9 @@ import javax.swing.*;
 public class ReadView extends JFrame {
 	   
     //set font for JLabel
-	JLabel fromField = new JLabel("sandro-portner@hotmail.com");
-	JLabel subjectField = new JLabel("TestMail");
-	JLabel contentTextArea = new JLabel("Bla bla bla lium suas usaun n efuhua DWNu ");
+	JLabel fromField = new JLabel("");
+	JLabel subjectField = new JLabel("");
+	JLabel contentTextArea = new JLabel("");
 	
 	//create different fonts
 	Font infoFont = new Font("Courier", Font.ITALIC,12);
@@ -35,7 +35,7 @@ public class ReadView extends JFrame {
 private void initialize() {
         setTitle("Reader");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(new Dimension(400, 280));
+        setSize(new Dimension(600, 480));
 
         getContentPane().setLayout(new BorderLayout());
 

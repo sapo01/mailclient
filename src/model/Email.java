@@ -16,6 +16,7 @@ public class Email {
     private String            subject;
     private String            message;
     private boolean           isUnread;
+    //Second constructor incl. attachments ?
     private ArrayList<Byte[]> attachments;
 
     public Email (String sender, String recipients, String subject, String message) {

@@ -8,10 +8,13 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import javax.mail.Address;
+import javax.mail.BodyPart;
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Store;
@@ -53,10 +56,10 @@ public class EmailService implements IEmailService {
         Properties properties = System.getProperties();
 
         // Request POP3S
-        properties.put("mail.store.protocol", "pop3s");
+        properties.setProperty("mail.store.protocol", "imaps");
 
         // Get the default Session object
-        Session session = Session.getDefaultInstance(properties);
+        Session session = Session.getDefaultInstance(properties, null);
 
         try {
             // Get a store for the POP3S protocol
@@ -64,17 +67,36 @@ public class EmailService implements IEmailService {
 
             // Connect to the current host using the specified username and
             // password
-            store.connect(host, user, password);
+            store.connect("imap.gmail.com", "yourEMAIL@gmail.com", "***PW****");
 
             // Create a Folder object corresponding to the given name
             Folder folder = store.getFolder("inbox");
 
             // Open the Folder
-            folder.open(Folder.READ_WRITE);
+            folder.open(Folder.READ_ONLY);
 
             // Get the new messages from the server and store locally
             Message[] messages = folder.getMessages();
-                        
+            //TEST SANdro
+            Message msg = folder.getMessage(folder.getMessageCount());
+            Address[] in = msg.getFrom();
+            for (Address address : in) {
+                System.out.println("FROM:" + address.toString());
+            }
+            Multipart mp = (Multipart) msg.getContent();
+			
+            BodyPart bp = mp.getBodyPart(0);
+            System.out.println("SENT DATE:" + msg.getSentDate());
+            System.out.println("SUBJECT:" + msg.getSubject());
+            try {
+				System.out.println("CONTENT:" + bp.getContent());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            //.------------
+            
+            
             storeNewMessages(messages);
 
             folder.close(true);
@@ -82,11 +104,14 @@ public class EmailService implements IEmailService {
 
         }
         catch (NoSuchProviderException e) {
-            System.out.println("Connection to POP3 Inbox failed");
+            System.out.println("Connection to POP3 Inbox failed" + e);
         }
         catch (MessagingException e) {
-        	System.out.println("Messages in POP3 Inbox could not be accessed");
-        }
+        	System.out.println("Messages in POP3 Inbox could not be accessed" + e);
+        } catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         // After appending new Emails to inbox file, get all Emails from inbox file
         return getEmailsFromInboxFile();
     }
@@ -192,9 +217,9 @@ public class EmailService implements IEmailService {
     public void sendMail (Email email) {
 
         // Username and password
-        final MailPreferences prefs    = MailPreferences.getMailPreferences();
-        final String          username = prefs.getUserName();
-        final String          password = prefs.getPassword();
+        final MailPreferences prefs    =  MailPreferences.getMailPreferences();
+        final String          username =  prefs.getUserName();
+        final String          password =  prefs.getPassword();
 
         // Sender mail address
         final String from = prefs.getUserAdress();
