@@ -1,5 +1,6 @@
 package view;
 
+import main.Language;
 import model.MessageList;
 
 import java.awt.BorderLayout;
