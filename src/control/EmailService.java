@@ -1,19 +1,29 @@
 package control;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Properties;
+import java.util.Scanner;
+import java.util.logging.Logger;
+
+import javax.mail.Flags;
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
+import javax.mail.Session;
+import javax.mail.Store;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-
 import interfaces.IEmailService;
-
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.io.*;
-import java.util.*;
-import java.util.logging.Logger;
-import java.awt.List;
-
 import model.Email;
 import model.MailPreferences;
 /**
@@ -22,7 +32,6 @@ import model.MailPreferences;
  */
 public class EmailService implements IEmailService {
 
-    private static final String JSON_ID       = "Id";
     private static final String JSON_SENDER   = "From";
     private static final String JSON_RECEIVER = "To";
     private static final String JSON_SUBJECT  = "Subject";
@@ -85,8 +94,6 @@ public class EmailService implements IEmailService {
     // Suppress unchecked warning since JSONObject inherits from HashMap, but does not allow ParameterTypes
     @SuppressWarnings("unchecked")
     private static void storeNewMessages (Message[] messages) {
-
-        JSONObject[] messagesAsJSON;
 
         // Reformat each message into JSON Object and append to file
         for (Message msg : messages) {
@@ -151,7 +158,8 @@ public class EmailService implements IEmailService {
         ArrayList<Email>      emailObjects = new ArrayList<>();
 
         try {
-            Scanner jsonScanner = new Scanner(new File(MailPreferences.getMailPreferences().getInboxPath()), "UTF-8");
+            @SuppressWarnings("resource")
+			Scanner jsonScanner = new Scanner(new File(MailPreferences.getMailPreferences().getInboxPath()), "UTF-8");
 
             // Reading each line of file and parse content to JSON-Object
             while (jsonScanner.hasNext()) {
@@ -162,12 +170,12 @@ public class EmailService implements IEmailService {
             // Convert JSON-Objects to Email-Objects
             for (JSONObject obj : jsonObjects) {
 
-                // Get receivers from message object and convert them to an AWT List
-                String                 receivers       = (String) obj.get("To");
+                // Get receivers from message object
+                String                 receivers       = (String) obj.get("to");
                 
                 // Generate Email Object and add it to ArrayList of Email objects
                 //TODO: Get ID from AI Counter and refactor receiver as string
-                emailObjects.add(new Email(1, (String) obj.get(JSON_SENDER), receivers, (String) obj.get(JSON_SUBJECT), (String) obj.get(JSON_MESSAGE)));
+                emailObjects.add(new Email((String) obj.get(JSON_SENDER), receivers, (String) obj.get(JSON_SUBJECT), (String) obj.get(JSON_MESSAGE)));
             }
         }
         catch (ParseException parseEx) {
@@ -231,7 +239,7 @@ public class EmailService implements IEmailService {
             message.setText(mailText);
 
             Transport transport = session.getTransport("smtps");
-
+            
             try {
                 transport.connect(prefs.getSmtpAddress(), username, password);
                 transport.sendMessage(message, message.getAllRecipients());

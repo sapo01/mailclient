@@ -16,7 +16,7 @@ public class Main {
 		MailPreferences prefs = model.MailPreferences.getMailPreferences();	
 		MainView menu = new MainView(msg);
 		menu.setUp();
-		
+		System.out.print(prefs.getPop3Address());
 	}
 	
 	public static EmailService getMailService(){

@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.text.View;
 
 import model.Email;
+import model.MailPreferences;
 import model.MessageList;
 import view.SendView;
 import view.SettingsView;
@@ -13,19 +14,18 @@ import view.SettingsView;
 public class ButtonActionListener implements ActionListener {
 	
 	private  JFrame view;
-	private  Email email;
+	
+	Email test1 = new Email("jsmailclient@gmail.com","sandro-portner@hotmail.com","TestMail","Message:))");
 	
 	public ButtonActionListener(JFrame view){
 		this.view = view;
 	}
-	
-	public void setMail(final Email email){
-		this.email = email;
-	}
-	
+		
 	@Override
 	public void actionPerformed(ActionEvent input) {
-				final String command = input.getActionCommand();	
+		        final MailPreferences prefs = MailPreferences.getMailPreferences();
+				final String command = input.getActionCommand();
+				
 				SendView newMail = new SendView();
 				SettingsView settings = new SettingsView();
 				
@@ -50,7 +50,12 @@ public class ButtonActionListener implements ActionListener {
 			     	newMail.setVisible(true);
 			     	break;
 				case "sendMail":
-					main.Main.getMailService().sendMail(email);
+					Email mail = new Email(prefs.getUserAdress(),newMail.getTo(), newMail.getSubject(),newMail.getMessage());
+					System.out.println(test1.getRecipents());
+					System.out.println(test1.getSubject());
+					System.out.println(test1.getSender());
+					System.out.println(test1.getMessage());
+					main.Main.getMailService().sendMail(test1);
 					break;
 				default: 
 					System.out.println("Command not exists");

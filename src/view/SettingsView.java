@@ -80,5 +80,9 @@ private void initialize() {
        
     }
 
+	public String getSender(){
+		return mailAddress.getText();
+	}
+
 
 }

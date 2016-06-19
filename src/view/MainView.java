@@ -22,11 +22,12 @@ import control.EmailListCellRenderer;
 
 @SuppressWarnings("serial")
 public class MainView extends JFrame {
-	//Test Email
+	//TESTING
 	private ArrayList<Email> testList = new ArrayList<Email>();
 		
-	Email test = new Email(1, "Hallo", "Sandro","Test","Test");
-	Email test1 = new Email(2, "Hallo", "Sandro","Test","Test");
+	Email test = new Email("Sender", "To ? ","Subject","Text");
+	Email test1 = new Email("Sender2", "Recipients","Test","Test");
+	
 		
 	EmailListModel inboxListModel = new EmailListModel(testList); //here get new Mails
     JList<Email> inboxList = new JList<>(inboxListModel);
@@ -34,11 +35,8 @@ public class MainView extends JFrame {
 
 	@SuppressWarnings("unchecked")
 	public MainView(MessageList msg){
-		testList.add(test);
-		testList.add(test1);
-		
 		inboxList.setCellRenderer(new EmailListCellRenderer());
-		setUp();
+		inboxListModel.addEntry(test);
 	}
 		
 	ActionListener listener = new ButtonActionListener(this);
@@ -56,8 +54,8 @@ public class MainView extends JFrame {
 		preview.setFont(new Font(Font.DIALOG, Font.ITALIC, 10));
 		
 		
-		//mainPanel.add(name,BorderLayout.PAGE_START);
-		//mainPanel.add(inboxPane,BorderLayout.AFTER_LINE_ENDS);
+		mainPanel.add(name,BorderLayout.PAGE_START);
+		mainPanel.add(inboxPane,BorderLayout.AFTER_LINE_ENDS);
 		mainPanel.add(inboxList,BorderLayout.CENTER);
 		
 		JPanel buttonPanel = new JPanel(new FlowLayout());

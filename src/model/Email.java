@@ -18,24 +18,13 @@ public class Email {
     private boolean           isUnread;
     private ArrayList<Byte[]> attachments;
 
-    public Email (int id, String sender, String recipients, String subject, String message) {
-        this.id = id;
+    public Email (String sender, String recipients, String subject, String message) {
         this.sender = sender;
         this.recipents = recipients;
         this.subject = subject;
         this.message = message;
-        this.attachments = new ArrayList<>();
     }
-
-    public Email (int id, String sender, String recipients, String subject, String message, ArrayList<Byte[]> attachments) {
-        this.id = id;
-        this.sender = sender;
-        this.recipents = recipients;
-        this.subject = subject;
-        this.message = message;
-        this.attachments = new ArrayList<>(attachments);
-    }
-
+    
     public int getId () {
         return this.id;
     }

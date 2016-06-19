@@ -8,7 +8,6 @@ import javax.swing.*;
 import javax.swing.JTextField;
 
 import control.ButtonActionListener;
-import model.Email;
 
 @SuppressWarnings("serial")
 public class SendView extends JFrame {
@@ -19,7 +18,6 @@ public class SendView extends JFrame {
     JTextArea contentTextArea = new JTextArea();
 
     ActionListener listener = new ButtonActionListener(this);
-    
     
     public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
@@ -68,8 +66,8 @@ private void Initialize() {
         
         JButton sendMailButton = new JButton("Send E-mail");
         
-        sendMailButton.addActionListener(listener);
         sendMailButton.setActionCommand("sendMail");
+        sendMailButton.addActionListener(listener);
         		
         footerPanel.add(sendMailButton, BorderLayout.SOUTH);
 
@@ -78,5 +76,21 @@ private void Initialize() {
         getContentPane().add(bodyPanel, BorderLayout.CENTER);
         getContentPane().add(footerPanel, BorderLayout.SOUTH);
     }
+
+	public String getTo(){
+		return toField.getText();
+	}
+	
+	public String getCc(){
+		return ccField.getText();
+	}
+	
+	public String getSubject(){
+		return subjectField.getText();
+	}
+	
+	public String getMessage(){
+		return contentTextArea.getText();
+	}
 
 }

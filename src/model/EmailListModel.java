@@ -26,7 +26,7 @@ public class EmailListModel extends AbstractListModel<Email>
     {
         return this.emails.get(index);
     }
-
+    
     public void addEntry(final Email newMail)
     {
         this.emails.add(newMail);
