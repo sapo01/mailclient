@@ -5,15 +5,10 @@ import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.*;
-import javax.swing.JTextField;
 
+@SuppressWarnings("serial")
 public class ReadView extends JFrame {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1;
-   
+	   
     //set font for JLabel
 	JLabel fromField = new JLabel("sandro-portner@hotmail.com");
 	JLabel subjectField = new JLabel("TestMail");

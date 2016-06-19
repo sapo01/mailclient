@@ -3,14 +3,12 @@ package view;
 import main.Language;
 import model.MessageList;
 
-import javax.mail.*;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 
-import javax.swing.AbstractListModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,12 +20,15 @@ import control.ButtonActionListener;
 
 @SuppressWarnings("serial")
 public class MainView extends JFrame {
-	final static MessageList msg = new MessageList();
-	JList<String> list = new JList<String>(msg);
 	
-	ActionListener listener = new ButtonActionListener(this);
+	private JList<String> list;
 	
-	@SuppressWarnings("serial")
+	public MainView(MessageList msg){
+		list = new JList<String>(msg);
+	}
+		
+	ActionListener listener = new ButtonActionListener();
+	
 	public  void setUp() {
 		
 		
@@ -56,15 +57,20 @@ public class MainView extends JFrame {
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		
 		//Add the buttons to this page
+		JButton newMailButton = new JButton("New Mail");
 		JButton updateButton = new JButton("Get Mails");
 		JButton removeButton = new JButton("Delete");
 		JButton settingsButton = new JButton("Settings");
 		
+		buttonPanel.add(newMailButton);
 		buttonPanel.add(updateButton);
 		buttonPanel.add(removeButton);
 		buttonPanel.add(settingsButton);
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+		
+		newMailButton.setActionCommand("newMail");
+		newMailButton.addActionListener(listener);
 		
 		updateButton.setActionCommand("updateMails");
 		updateButton.addActionListener(listener);
@@ -87,9 +93,5 @@ public class MainView extends JFrame {
         frame.setVisible(true);
         
 	}
-    //TODO: Move to Control -> This is not VIEW..
-	public static MessageList getMsgList(){
-		return msg;
-	}
-
+    
 }

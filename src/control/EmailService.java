@@ -72,10 +72,10 @@ public class EmailService implements IEmailService {
 
         }
         catch (NoSuchProviderException e) {
-            Logger.getLogger("Connection to POP3 Inbox failed");
+            System.out.println("Connection to POP3 Inbox failed");
         }
         catch (MessagingException e) {
-            Logger.getLogger("Messages in POP3 Inbox could not be accessed");
+        	System.out.println("Messages in POP3 Inbox could not be accessed");
         }
         // After appending new Emails to inbox file, get all Emails from inbox file
         return getEmailsFromInboxFile();
@@ -124,29 +124,6 @@ public class EmailService implements IEmailService {
                     jsonEmail.put(JSON_MESSAGE, content);
                 }
 
-            /* Part of Urs Martin to read content
-
-            Part   messagePart = msg;
-            Object content     = messagePart.getContent();
-            // -- or its first body part if it is a multipart message --
-            if (content instanceof Multipart) {
-                messagePart = ((Multipart) content).getBodyPart(0);
-                Log.getLogger().info("[ Multipart Message with " + ((Multipart) content).getCount() + " parts]");
-            }
-            // -- Get the content type --
-            String contentType = messagePart.getContentType();
-            // -- If the content is plain text, we can print it --
-            if (contentType.startsWith("text/plain") || contentType.startsWith("text/html")) {
-                InputStream    is       = messagePart.getInputStream();
-                BufferedReader reader   = new BufferedReader(new InputStreamReader(is));
-                String         thisLine = reader.readLine();
-                while (thisLine != null) {
-                    System.out.println(thisLine);
-                    thisLine = reader.readLine();
-                }
-            }
-            System.out.println("-----------------------------");*/
-
                 // Write Email to JSON File
                 file = new FileWriter(MailPreferences.getMailPreferences().getInboxPath(), true);
                 file.append(jsonEmail.toJSONString());
@@ -190,16 +167,17 @@ public class EmailService implements IEmailService {
                 List                   receiverAWTList = new List();
 
                 receiverList.forEach(receiverAWTList::add);
+                
                 // Generate Email Object and add it to ArrayList of Email objects
                 //TODO: Get ID from AI Counter and refactor receiver as string
                 emailObjects.add(new Email(1, (String) obj.get(JSON_SENDER), receiverAWTList, (String) obj.get(JSON_SUBJECT), (String) obj.get(JSON_MESSAGE)));
             }
         }
         catch (ParseException parseEx) {
-            Logger.getLogger("JSON Object from file could not be parsed");
+        	System.out.println("JSON Object from file could not be parsed");
         }
         catch (IOException ioEx) {
-            Logger.getLogger("JSON File could not be opened for readout");
+        	System.out.println("JSON File could not be opened for readout");
         }
 
         return emailObjects;
@@ -266,10 +244,10 @@ public class EmailService implements IEmailService {
                 transport.close();
             }
 
-            Logger.getLogger("Message with Subject: \"" + subject + "\" sent");
+            System.out.println("Message with Subject: \"" + subject + "\" sent");
         }
         catch (MessagingException e) {
-            Logger.getLogger("Message not sent!");
+        	System.out.println("Message not sent!");
         }
     }
 }

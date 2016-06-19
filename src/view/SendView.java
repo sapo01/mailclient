@@ -2,10 +2,15 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.JTextField;
 
+import control.ButtonActionListener;
+import model.Email;
+
+@SuppressWarnings("serial")
 public class SendView extends JFrame {
 	
     JTextField toField = new JTextField();
@@ -13,6 +18,9 @@ public class SendView extends JFrame {
     JTextField subjectField = new JTextField();
     JTextArea contentTextArea = new JTextArea();
 
+    ActionListener listener = new ButtonActionListener();
+    
+    
     public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
         @Override
@@ -29,8 +37,8 @@ public class SendView extends JFrame {
    
 private void Initialize() {
         setTitle("New Mail");
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(new Dimension(400, 280));
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        setSize(new Dimension(600, 280));
 
         getContentPane().setLayout(new BorderLayout());
 
@@ -57,7 +65,12 @@ private void Initialize() {
 
         JPanel footerPanel = new JPanel();
         footerPanel.setLayout(new BorderLayout());
+        
         JButton sendMailButton = new JButton("Send E-mail");
+        
+        sendMailButton.addActionListener(listener);
+        sendMailButton.setActionCommand("sendMail");
+        		
         footerPanel.add(sendMailButton, BorderLayout.SOUTH);
 
         //add the panels to the frame
@@ -65,4 +78,5 @@ private void Initialize() {
         getContentPane().add(bodyPanel, BorderLayout.CENTER);
         getContentPane().add(footerPanel, BorderLayout.SOUTH);
     }
+
 }
