@@ -6,15 +6,11 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
 import control.ButtonActionListener;
-import model.MailPreferences;
 
 import javax.swing.*;
 import javax.swing.JTextField;
 
-@SuppressWarnings("serial")
 public class SettingsView extends JFrame {
-	
-	private static SettingsView SETTINGS_VIEW = new SettingsView();
 	
 	//set the inputs for the user informations
     JTextField mailAddress= new JTextField();
@@ -22,15 +18,19 @@ public class SettingsView extends JFrame {
     JTextField host = new JTextField();
     JTextField  port = new JTextField();
     
-    ActionListener listener = new ButtonActionListener();
-     
-    //add access to a single Instance of this class
-    public static SettingsView getSettingsView() {
-        return SETTINGS_VIEW;
-    }
+    ActionListener listener = new ButtonActionListener(this);
     
-    private SettingsView() {
-    	SETTINGS_VIEW.setVisible(true);
+    public static void main(String[] args) {
+    SwingUtilities.invokeLater(new Runnable() {
+        @Override
+        public void run() {
+        	SettingsView settings = new SettingsView();
+        	settings.setVisible(true);
+        }
+    });    
+    }
+
+    public SettingsView() {
         initialize();
     }
    

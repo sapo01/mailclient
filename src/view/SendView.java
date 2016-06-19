@@ -18,7 +18,7 @@ public class SendView extends JFrame {
     JTextField subjectField = new JTextField();
     JTextArea contentTextArea = new JTextArea();
 
-    ActionListener listener = new ButtonActionListener();
+    ActionListener listener = new ButtonActionListener(this);
     
     
     public static void main(String[] args) {

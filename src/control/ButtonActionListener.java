@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.text.View;
 
 import model.Email;
 import model.MessageList;
@@ -11,10 +12,11 @@ import view.SettingsView;
 
 public class ButtonActionListener implements ActionListener {
 	
-	private  JFrame frame;
+	private  JFrame view;
 	private  Email email;
 	
-	public ButtonActionListener(){
+	public ButtonActionListener(JFrame view){
+		this.view = view;
 	}
 	
 	public void setMail(final Email email){
@@ -23,8 +25,9 @@ public class ButtonActionListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent input) {
-				final String command = input.getActionCommand();
-				final SettingsView settings = view.SettingsView.getSettingsView();
+				final String command = input.getActionCommand();	
+				SendView newMail = new SendView();
+				SettingsView settings = new SettingsView();
 				
 				switch(command) {
 				case "saveSettings":
@@ -44,7 +47,6 @@ public class ButtonActionListener implements ActionListener {
 					main.Main.getMailService().getEmails();
 					break;
 				case "newMail":
-					SendView newMail = new SendView();
 			     	newMail.setVisible(true);
 			     	break;
 				case "sendMail":

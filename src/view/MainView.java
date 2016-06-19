@@ -1,57 +1,63 @@
 package view;
 
+import model.Email;
+import model.EmailListModel;
 import model.MessageList;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import control.ButtonActionListener;
+import control.EmailListCellRenderer;
 
 @SuppressWarnings("serial")
 public class MainView extends JFrame {
-	
-	private JList<String> list;
-	
+	//Test Email
+	private ArrayList<Email> testList = new ArrayList<Email>();
+		
+	Email test = new Email(1, "Hallo", "Sandro","Test","Test");
+	Email test1 = new Email(2, "Hallo", "Sandro","Test","Test");
+		
+	EmailListModel inboxListModel = new EmailListModel(testList); //here get new Mails
+    JList<Email> inboxList = new JList<>(inboxListModel);
+	JScrollPane inboxPane = new JScrollPane(inboxList);
+
 	public MainView(MessageList msg){
-		list = new JList<String>(msg);
+		testList.add(test);
+		testList.add(test1);
+		
+		inboxList.setCellRenderer(new EmailListCellRenderer());
+		setUp();
 	}
 		
-	ActionListener listener = new ButtonActionListener();
+	ActionListener listener = new ButtonActionListener(this);
 	
 	public  void setUp() {
-		
-		
-		list.setCellRenderer(new DefaultListCellRenderer() {
-			    @SuppressWarnings("unused")
-				Component getListCellRendererComponent(JList<? extends String> list, String value, int index,
-			        boolean isSelected, boolean cellHasFocus) {
-			          			         
-			        return this;
-			    }
-		});
+	
 		
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		
 		JLabel name = new JLabel("MailClient 1.0");
 		name.setFont(new Font(Font.DIALOG, Font.ITALIC, 20));
 		
+		//not ready
 		JLabel preview = new JLabel(" ");
 		preview.setFont(new Font(Font.DIALOG, Font.ITALIC, 10));
 		
 		
-		mainPanel.add(name,BorderLayout.PAGE_START);
-		mainPanel.add(preview,BorderLayout.AFTER_LINE_ENDS);
-		mainPanel.add(list,BorderLayout.CENTER);
+		//mainPanel.add(name,BorderLayout.PAGE_START);
+		//mainPanel.add(inboxPane,BorderLayout.AFTER_LINE_ENDS);
+		mainPanel.add(inboxList,BorderLayout.CENTER);
 		
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		

@@ -16,6 +16,7 @@ public class Main {
 		MailPreferences prefs = model.MailPreferences.getMailPreferences();	
 		MainView menu = new MainView(msg);
 		menu.setUp();
+		
 	}
 	
 	public static EmailService getMailService(){

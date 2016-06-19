@@ -12,14 +12,13 @@ public class Email {
     private int               id;
     private String            sender;
     
-    //TODO: Refactor to either java.util.List or to String (comma separated, possible?)
-    private List              recipents;
+    private String            recipents;
     private String            subject;
     private String            message;
     private boolean           isUnread;
     private ArrayList<Byte[]> attachments;
 
-    public Email (int id, String sender, List recipients, String subject, String message) {
+    public Email (int id, String sender, String recipients, String subject, String message) {
         this.id = id;
         this.sender = sender;
         this.recipents = recipients;
@@ -28,7 +27,7 @@ public class Email {
         this.attachments = new ArrayList<>();
     }
 
-    public Email (int id, String sender, List recipients, String subject, String message, ArrayList<Byte[]> attachments) {
+    public Email (int id, String sender, String recipients, String subject, String message, ArrayList<Byte[]> attachments) {
         this.id = id;
         this.sender = sender;
         this.recipents = recipients;
@@ -49,7 +48,7 @@ public class Email {
         return this.message;
     }
 
-    public List getRecipents () {
+    public String getRecipents () {
         return this.recipents;
     }
 

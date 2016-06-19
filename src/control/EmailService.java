@@ -65,6 +65,7 @@ public class EmailService implements IEmailService {
 
             // Get the new messages from the server and store locally
             Message[] messages = folder.getMessages();
+                        
             storeNewMessages(messages);
 
             folder.close(true);
@@ -163,14 +164,10 @@ public class EmailService implements IEmailService {
 
                 // Get receivers from message object and convert them to an AWT List
                 String                 receivers       = (String) obj.get("To");
-                java.util.List<String> receiverList    = Arrays.asList(receivers.split("\\s*,\\s*"));
-                List                   receiverAWTList = new List();
-
-                receiverList.forEach(receiverAWTList::add);
                 
                 // Generate Email Object and add it to ArrayList of Email objects
                 //TODO: Get ID from AI Counter and refactor receiver as string
-                emailObjects.add(new Email(1, (String) obj.get(JSON_SENDER), receiverAWTList, (String) obj.get(JSON_SUBJECT), (String) obj.get(JSON_MESSAGE)));
+                emailObjects.add(new Email(1, (String) obj.get(JSON_SENDER), receivers, (String) obj.get(JSON_SUBJECT), (String) obj.get(JSON_MESSAGE)));
             }
         }
         catch (ParseException parseEx) {
@@ -195,7 +192,7 @@ public class EmailService implements IEmailService {
         final String from = prefs.getUserAdress();
 
         // Receiver mail addresses
-        final List to = email.getRecipents();
+        final String to = email.getRecipents();
 
         // Subject
         final String subject = email.getSubject();
@@ -224,9 +221,8 @@ public class EmailService implements IEmailService {
             message.setFrom(new InternetAddress(from));
 
             // Set To: header field of the header
-            for (int i = 0; i < to.getItemCount(); i++) {
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(to.getItem(i)));
-            }
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            
 
             // Set Subject: header field
             message.setSubject(subject);
