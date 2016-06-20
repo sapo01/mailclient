@@ -84,7 +84,7 @@ public class MailPreferences {
             prefs.put(inboxPath, new File(".").getCanonicalPath() + "\\" + userAddr + "_inbox.json");
         }
         catch (IOException e) {
-            Logger.getLogger("Unable to get user inbox file path");
+            Logger.getLogger("Unable to get user inbox file path" + e);
         }
     }
 
@@ -122,7 +122,7 @@ public class MailPreferences {
 	}
     
     public void setLanguage(Locale input){
-    	this.language = input;
+    	MailPreferences.language = input;
     }
 
     /**

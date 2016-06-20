@@ -8,24 +8,27 @@ import java.util.ArrayList;
  */
 public class Email {
     //TODO: Implement central storage of id, auto incrementing
-    private int               id;
+    private String            id;
     private String            sender;
     
     private String            recipents;
+    private String            cc;
     private String            subject;
     private String            message;
-    private boolean 		  read;
+    private boolean 		  read = false;
     //Add eventually..(if enough time)
     private ArrayList<Byte[]> attachments;
 
-    public Email (String sender, String recipients, String subject, String message) {
-        this.sender = sender;
+    public Email (String id, String sender, String recipients,String cc, String subject, String message) {
+        this.id = id;
+    	this.sender = sender;
         this.recipents = recipients;
+        this.cc = cc;
         this.subject = subject;
         this.message = message;
     }
     
-    public int getId () {
+    public String getId () {
         return this.id;
     }
 
@@ -39,6 +42,10 @@ public class Email {
 
     public String getRecipents () {
         return this.recipents;
+    }
+    
+    public String getCc() {
+        return this.cc;
     }
 
     public String getSender () {

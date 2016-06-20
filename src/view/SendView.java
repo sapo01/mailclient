@@ -3,7 +3,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.*;

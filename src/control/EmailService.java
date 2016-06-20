@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.UUID;
+
 import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Flags;
@@ -33,8 +35,10 @@ import model.MailPreferences;
  */
 public class EmailService implements IEmailService {
 
+	private static final String JSON_ID       = "Id";
     private static final String JSON_SENDER   = "From";
     private static final String JSON_RECEIVER = "To";
+    private static final String JSON_CC		  = "Cc";
     private static final String JSON_SUBJECT  = "Subject";
     private static final String JSON_SENTDATE = "SentDate";
     private static final String JSON_MESSAGE  = "Message";
@@ -101,6 +105,8 @@ public class EmailService implements IEmailService {
             try {
                 JSONObject jsonEmail = new JSONObject();
                 
+                jsonEmail.put(JSON_ID, UUID.randomUUID().toString());
+                
                 // Get and put From
                 Address[] in = msg.getFrom();
                 for (Address address : in) {
@@ -113,6 +119,12 @@ public class EmailService implements IEmailService {
                 String to = InternetAddress.toString(msg.getRecipients(Message.RecipientType.TO));
                 if (to != null) {
                     jsonEmail.put(JSON_RECEIVER, to);
+                }
+                
+                // Get and put Cc
+                String cc = InternetAddress.toString(msg.getRecipients(Message.RecipientType.CC));
+                if (cc != null) {
+                    jsonEmail.put(JSON_CC, cc);
                 }
 
                 // Get and put Subject
@@ -143,7 +155,7 @@ public class EmailService implements IEmailService {
                 file.close();
 
                 // Mark this message as deleted when the session is closed
-                msg.setFlag(Flags.Flag.SEEN, true);
+                msg.setFlag(Flags.Flag.DELETED, true);
             }
             catch (MessagingException msgEx) {
                 System.out.println("A message could not be stored to the JSON File " + msgEx);
@@ -155,7 +167,7 @@ public class EmailService implements IEmailService {
         System.out.println("New messages stored to JSON");
     }
 
-    private static ArrayList<Email> getEmailsFromInboxFile() {
+    public static ArrayList<Email> getEmailsFromInboxFile() {
 
         ArrayList<JSONObject> jsonObjects  = new ArrayList<>();
         ArrayList<Email>      emailObjects = new ArrayList<>();
@@ -176,10 +188,17 @@ public class EmailService implements IEmailService {
 
                 // Get receivers from message object
                 final String receivers       = (String) obj.get("to");
-                
+                final String cc              = (String) obj.get("cc");
+ 
                 // Generate Email Object and add it to ArrayList of Email objects
-                //TODO: Get ID from AI Counter
-                emailObjects.add(new Email((String) obj.get(JSON_SENDER), receivers, (String) obj.get(JSON_SUBJECT), (String) obj.get(JSON_MESSAGE)));
+                emailObjects.add(
+                		new Email(
+                				UUID.randomUUID().toString(),
+                				(String) obj.get(JSON_SENDER),
+                				receivers,
+                				cc,
+                				(String) obj.get(JSON_SUBJECT),
+                				(String) obj.get(JSON_MESSAGE)));
             }
         }
         catch (ParseException parseEx) {
@@ -206,6 +225,9 @@ public class EmailService implements IEmailService {
         // Receiver mail addresses
         final String to = email.getRecipents();
 
+        // Receiver mail addresses
+        final String cc = email.getCc();
+        
         // Subject
         final String subject = email.getSubject();
 
@@ -234,6 +256,9 @@ public class EmailService implements IEmailService {
 
             // Set To: header field of the header
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            
+            // Set Cc: header field of the header
+            message.addRecipient(Message.RecipientType.CC, new InternetAddress(cc));
             
             // Set Subject: header field
             message.setSubject(subject);

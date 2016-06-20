@@ -1,13 +1,14 @@
 package view;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.*;
 
+import model.Email;
 import model.MailPreferences;
 
 @SuppressWarnings("serial")
@@ -18,29 +19,23 @@ public class ReadView extends JFrame {
     //set font for JLabel
 	JLabel fromField = new JLabel("");
 	JLabel subjectField = new JLabel("");
-	JLabel contentTextArea = new JLabel("");
+	JLabel MailMessage = new JLabel("");
 	
 	//create different fonts
-	Font infoFont = new Font("Courier", Font.ITALIC,12);
-	Font msgFont = new Font("Courier",Font.PLAIN,12);
-	
-    public static void main(String[] args) {
-    	SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-            	ReadView newMail = new ReadView();
-                newMail.setVisible(true);
-            }
-        });
-    }
+	Font infoFont = new Font("Courier", Font.ITALIC,13);
+	Font msgFont = new Font("Courier",Font.PLAIN,14);
   
-    public ReadView() {
+    public ReadView(Email mail) {
+    	fromField.setText(mail.getSender());
+    	subjectField.setText(mail.getSubject());
+    	MailMessage.setText(mail.getMessage());
+    	mail.setRead();
         initialize();
     }
    
 private void initialize() {
         setTitle("Reader");
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setSize(new Dimension(600, 480));
 
         getContentPane().setLayout(new BorderLayout());
@@ -50,6 +45,7 @@ private void initialize() {
         
         // Header Panel
         JPanel headerPanel = new JPanel();
+        headerPanel.setBackground(new Color(255, 255, 255));
         headerPanel.setLayout(new GridLayout(6, 2));
         headerPanel.add(new JLabel(rb.getString("from")));
         headerPanel.add(fromField);
@@ -62,17 +58,23 @@ private void initialize() {
         JPanel bodyPanel = new JPanel();
         bodyPanel.setLayout(new BorderLayout());
         bodyPanel.add(new JLabel(rb.getString("message")), BorderLayout.NORTH);
-        contentTextArea.setFont(msgFont);
-        bodyPanel.add(contentTextArea, BorderLayout.CENTER);
+        MailMessage.setFont(msgFont);
+        bodyPanel.add(MailMessage, BorderLayout.CENTER);
 
         JPanel footerPanel = new JPanel();
         footerPanel.setLayout(new BorderLayout());
-        JButton sendMailButton = new JButton(rb.getString("close"));
-        footerPanel.add(sendMailButton, BorderLayout.SOUTH);
+        
+        JButton closeMailButton = new JButton(rb.getString("close"));
+        closeMailButton.addActionListener(event -> close());
+        footerPanel.add(closeMailButton, BorderLayout.SOUTH);
 
         //add the panels to the frame
         getContentPane().add(headerPanel, BorderLayout.NORTH);
         getContentPane().add(bodyPanel, BorderLayout.CENTER);
         getContentPane().add(footerPanel, BorderLayout.SOUTH);
     }
+
+	private void close(){
+		this.dispose();
+	}
 }

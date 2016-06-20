@@ -13,11 +13,13 @@ public class Main {
 	private static EmailService mailservice = new EmailService();
 	
 	public static void main(String[] args) {
+		//create a new List from the updated Emails(server)
 		msg = new EmailListModel(mailservice.getEmails());
 		initialize();
 	}
 
 	private static void initialize(){
+		//Set default language
 		MailPreferences.getMailPreferences().setLanguage(new Locale("de","CH"));
 		view = new MainView(msg);
 		view.setUp();
@@ -36,3 +38,4 @@ public class Main {
 	}
 		
 }
+

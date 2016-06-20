@@ -46,18 +46,9 @@ public class EmailListModel extends AbstractListModel<Email>
     {
         fireContentsChanged(this, startIndex, endIndex);
     }
-    
+    //TODO: REMOVE IN JSON 
     public void remove(final int index){
 		this.emails.remove(index);
 		fireIntervalRemoved(this,size,size);
 	}
-    
-    @SuppressWarnings("rawtypes")
-	public ArrayList open(final int index){
-    	Email mail = this.emails.get(index);
-    	ArrayList<String> components = new ArrayList<>();
-    	components.add(mail.getSubject());
-    	components.add(mail.getMessage());
-    	return components;
-    }
 }

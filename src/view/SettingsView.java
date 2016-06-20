@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import control.SettingsActionListener;
@@ -32,6 +31,7 @@ public class SettingsView extends JFrame {
     
     ActionListener listener = new SettingsActionListener(this);
     
+    //for single start
     public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
         @Override

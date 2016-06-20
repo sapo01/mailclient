@@ -8,7 +8,10 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.util.Locale;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
@@ -27,15 +30,21 @@ public class MainView extends JFrame {
 	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", MailPreferences.getMailPreferences().getLanguage());
 	
 	//Get the Mails and create the list
-    private JList<Email> inboxList;
-	private JScrollPane inboxPane;
+    private static JList<Email> inboxList;
+	private static JScrollPane scrollPane;
+	private static EmailListModel model;
     //----------------
 	
 	@SuppressWarnings("unchecked")
 	public MainView(EmailListModel inboxListModel){
-		inboxList = new JList<>(inboxListModel);
+        model = inboxListModel;
+		inboxList = new JList<>(model);
 		inboxList.setCellRenderer(new EmailListCellRenderer());
-		inboxPane = new JScrollPane(inboxList);
+		
+		//Scrollbar implementation
+		scrollPane = new JScrollPane();
+		scrollPane.setViewportView(inboxList);
+		inboxList.addMouseListener(initializeMouseListener(inboxList));
 	}
 		
 	ActionListener listener = new MainActionListener(this);
@@ -53,8 +62,7 @@ public class MainView extends JFrame {
 		preview.setFont(new Font(Font.DIALOG, Font.ITALIC, 10));
 		
 		mainPanel.add(name,BorderLayout.PAGE_START);
-		mainPanel.add(inboxList);
-		inboxList.add(inboxPane);		
+		mainPanel.add(scrollPane, BorderLayout.CENTER);		
 		
 		
 		JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -97,11 +105,35 @@ public class MainView extends JFrame {
         
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public JList getList(){
+	public JList<Email> getList(){
 		return inboxList;
 	}
-	public void updateList(EmailListModel inboxListModel){
-		inboxList.updateUI();
+	
+	public static void setList(List<Email> updated){
+		model.setNewContent(updated);
+		scrollPane.setViewportView(inboxList);
 	}
+	
+	public MouseListener initializeMouseListener(final JList<Email> inboxList){
+	MouseListener mouselistener = new MouseAdapter(){
+		public void mouseClicked(MouseEvent mouseEvent){
+			JList<?> inboxList = (JList<?>) mouseEvent.getSource();
+			if(mouseEvent.getClickCount() == 2){
+				int index = inboxList.locationToIndex(mouseEvent.getPoint());
+				if(index >=0){
+					Email mail = (Email) inboxList.getModel().getElementAt(index);
+					ReadView view = new ReadView(mail);
+					view.setVisible(true);
+				}
+			}
+		}
+	};
+	return mouselistener;
+	}
+	
+
+	public void updateList(EmailListModel inboxListModel){
+		
+	}
+
 }

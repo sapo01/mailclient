@@ -18,7 +18,7 @@ public class SendActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent input) {
 		        final MailPreferences prefs = MailPreferences.getMailPreferences();
-				Email mail = new Email(prefs.getUserAdress(),SendMail.getTo(), SendMail.getSubject(),SendMail.getMessage());
+				Email mail = new Email("ID",prefs.getUserAdress(),SendMail.getTo(),SendMail.getCc(), SendMail.getSubject(),SendMail.getMessage());
 				main.Main.getMailService().sendMail(mail);
 				SendMail.setVisible(false);
 	}
