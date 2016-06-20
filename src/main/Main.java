@@ -1,4 +1,7 @@
 package main;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import control.EmailService;
 import view.MainView;
 import view.LoginView;
@@ -9,15 +12,16 @@ public class Main {
 	//private static EmailListModel msg;
 	
 	public static void main(String[] args) {
+		Locale localeDE = new Locale("de", "CH");
+		Locale localeEN = new Locale("en", "US");
+		
+		ResourceBundle rb = ResourceBundle.getBundle("ressources", localeDE);
 		initialize();
 	}
 
 	private static void initialize(){
 		LoginView settings = new LoginView();
 		settings.setVisible(true);
-//		msg = new EmailListModel(mailservice.getEmails());
-//		MainView menu = new MainView(msg);
-//		menu.setUp();
 	}
 	
 	public static EmailService getMailService(){
