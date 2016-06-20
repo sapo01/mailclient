@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
 /**
  * @author Sandro Portner
  * @author Janick Rueegger
@@ -26,6 +29,8 @@ public class MailPreferences {
     private static final String pop3Port    = "pop3Port";
     private static final String smtpAddress = "smtpAddress";
     private static final String smtpPort    = "smtpPort";
+    private static final String imapAddress = "imapAddress";
+    private static final String imapPort    = "imapPort";
     private static final String tlsEnabled  = "tlsEnabled";
 
 
@@ -64,7 +69,14 @@ public class MailPreferences {
 
     public void setUser (String userName, String userAddr, String password) {
         prefs.put(userID, userName);
+        
+        try{
+        InternetAddress email = new InternetAddress(userAddr);
+        email.validate();
         prefs.put(userAddress, userAddr);
+        }catch (AddressException e){
+        	System.out.println("No valid email" + e);
+        }
         prefs.put(passwd, password);
         try {
             prefs.put(inboxPath, new File(".").getCanonicalPath() + "\\" + userAddr + "_inbox.json");
@@ -82,6 +94,10 @@ public class MailPreferences {
     public String getSmtpAddress () {
         return prefs.get(smtpAddress, "SmtpAddress");
     }
+    
+    public String getImapAddress () {
+        return prefs.get(imapAddress, "ImapAddress");
+    }
 
     public String getPop3Port () {
         return prefs.get(pop3Port, "Pop3Port");
@@ -89,6 +105,10 @@ public class MailPreferences {
 
     public String getSmtpPort () {
         return prefs.get(smtpPort, "SmtpPort");
+    }
+    
+    public String getImapPort () {
+        return prefs.get(imapPort, "ImapPort");
     }
 
     public String getTlsEnabled () {
@@ -102,15 +122,17 @@ public class MailPreferences {
      * @param pop3Addr POP3 Address of Mail Server
      * @param smtpAddr SMTP Address of Mail Server
      */
-    public void setProvider (String pop3Addr, String smtpAddr) {
-        setProvider(pop3Addr, "995", smtpAddr, "587", "true");
+    public void setProvider (String pop3Addr, String smtpAddr, String imapAddr) {
+        setProvider(pop3Addr, "995", smtpAddr, "587",imapAddr ,"995", "true");
     }
 
-    public void setProvider (String pop3Addr, String pop3PortNumber, String smtpAddr, String smtpPortNumber, String tls) {
+    public void setProvider (String pop3Addr, String pop3PortNumber, String smtpAddr, String smtpPortNumber,String imapAddr, String imapPortNumber, String tls) {
         prefs.put(pop3Address, pop3Addr);
         prefs.put(pop3Port, pop3PortNumber);
         prefs.put(smtpAddress, smtpAddr);
         prefs.put(smtpPort, smtpPortNumber);
+        prefs.put(imapAddress, imapAddr);
+        prefs.put(imapPort, imapPortNumber);
         prefs.put(tlsEnabled, tls);
     }
 }

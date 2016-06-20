@@ -17,12 +17,12 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import control.ButtonActionListener;
+import control.MainActionListener;
 import control.EmailListCellRenderer;
 
 @SuppressWarnings("serial")
 public class MainView extends JFrame {
-	//TESTING
+	//TESTING------
 	private ArrayList<Email> testList = new ArrayList<Email>();
 		
 	Email test = new Email("Sender", "To ? ","Hallo","Text");
@@ -32,14 +32,14 @@ public class MainView extends JFrame {
 	EmailListModel inboxListModel = new EmailListModel(testList); //here get new Mails
     JList<Email> inboxList = new JList<>(inboxListModel);
 	JScrollPane inboxPane = new JScrollPane(inboxList);
-
+    //----------------
 	@SuppressWarnings("unchecked")
 	public MainView(MessageList msg){
 		inboxList.setCellRenderer(new EmailListCellRenderer());
 		inboxListModel.addEntry(test);
 	}
 		
-	ActionListener listener = new ButtonActionListener(this);
+	ActionListener listener = new MainActionListener(this);
 	
 	public  void setUp() {
 	

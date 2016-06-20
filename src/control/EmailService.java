@@ -49,25 +49,24 @@ public class EmailService implements IEmailService {
         final String          user     = prefs.getUserName();
         final String          password = prefs.getPassword();
 
-        // The IP address of the POP3 server
-        String host = prefs.getPop3Address();
-
+        // The IP address of the IMAP server
+        String host = prefs.getImapAddress();
         // Get system properties
         Properties properties = System.getProperties();
 
-        // Request POP3S
+        // Request IMAPS
         properties.setProperty("mail.store.protocol", "imaps");
 
         // Get the default Session object
         Session session = Session.getDefaultInstance(properties, null);
 
         try {
-            // Get a store for the POP3S protocol
+            // Get a store for the protocol
             Store store = session.getStore();
 
             // Connect to the current host using the specified username and
             // password
-            store.connect("imap.gmail.com", "yourEMAIL@gmail.com", "***PW****");
+            store.connect(host, user, password);
 
             // Create a Folder object corresponding to the given name
             Folder folder = store.getFolder("inbox");
@@ -77,6 +76,7 @@ public class EmailService implements IEmailService {
 
             // Get the new messages from the server and store locally
             Message[] messages = folder.getMessages();
+            
             //TEST SANdro
             Message msg = folder.getMessage(folder.getMessageCount());
             Address[] in = msg.getFrom();
@@ -244,7 +244,7 @@ public class EmailService implements IEmailService {
         properties.setProperty("mail.smtp.ssl.enable", prefs.getTlsEnabled().equals("true") ? "false" : "true" );
 
         // Get the default Session object
-        final Session session = Session.getDefaultInstance(properties);
+        final Session session = Session.getDefaultInstance(properties, null);
 
         try {
             // Create a default MimeMessage object
@@ -256,13 +256,12 @@ public class EmailService implements IEmailService {
             // Set To: header field of the header
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
             
-
             // Set Subject: header field
             message.setSubject(subject);
 
             // Now set the actual message
             message.setText(mailText);
-
+            
             Transport transport = session.getTransport("smtps");
             
             try {
@@ -273,10 +272,10 @@ public class EmailService implements IEmailService {
                 transport.close();
             }
 
-            System.out.println("Message with Subject: \"" + subject + "\" sent");
+            System.out.println("Message with Subject: \"" + subject + "\" sent successfully");
         }
         catch (MessagingException e) {
-        	System.out.println("Message not sent!");
+        	System.out.println("Message not sent!" + e);
         }
     }
 }

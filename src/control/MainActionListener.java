@@ -11,13 +11,11 @@ import model.MessageList;
 import view.SendView;
 import view.SettingsView;
 
-public class ButtonActionListener implements ActionListener {
+public class MainActionListener implements ActionListener {
 	
 	private  JFrame view;
-	
-	Email test1 = new Email("jsmailclient@gmail.com","sandro-portner@hotmail.com","TestMail","Message:))");
-	
-	public ButtonActionListener(JFrame view){
+		
+	public MainActionListener(JFrame view){
 		this.view = view;
 	}
 		
@@ -26,21 +24,16 @@ public class ButtonActionListener implements ActionListener {
 		        final MailPreferences prefs = MailPreferences.getMailPreferences();
 				final String command = input.getActionCommand();
 				
-				SendView newMail = new SendView();
-				SettingsView settings = new SettingsView();
+				final SendView newMail = new SendView();
 				
 				switch(command) {
-				case "saveSettings":
-					
-					break;
-				case "discardSettings":
-					settings.setVisible(false);
-			     	break;
+				
 				case "deleteMail":
 					MessageList msg = main.Main.getMsgList();
 					msg.remove();
 					break;
 				case "openSettings":
+					SettingsView settings = new SettingsView();
 			     	settings.setVisible(true);
 			     	break;
 				case "updateMails":
@@ -49,14 +42,6 @@ public class ButtonActionListener implements ActionListener {
 				case "newMail":
 			     	newMail.setVisible(true);
 			     	break;
-				case "sendMail":
-					Email mail = new Email(prefs.getUserAdress(),newMail.getTo(), newMail.getSubject(),newMail.getMessage());
-					System.out.println(test1.getRecipents());
-					System.out.println(test1.getSubject());
-					System.out.println(test1.getSender());
-					System.out.println(test1.getMessage());
-					main.Main.getMailService().sendMail(test1);
-					break;
 				default: 
 					System.out.println("Command not exists");
 					break;

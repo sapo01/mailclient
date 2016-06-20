@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.JTextField;
 
-import control.ButtonActionListener;
+import control.SendActionListener;
 
 @SuppressWarnings("serial")
 public class SendView extends JFrame {
@@ -17,7 +17,7 @@ public class SendView extends JFrame {
     JTextField subjectField = new JTextField();
     JTextArea contentTextArea = new JTextArea();
 
-    ActionListener listener = new ButtonActionListener(this);
+    ActionListener listener = new SendActionListener(this);
     
     public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {

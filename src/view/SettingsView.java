@@ -5,20 +5,26 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
-import control.ButtonActionListener;
+import control.SettingsActionListener;
+import model.MailPreferences;
 
 import javax.swing.*;
 import javax.swing.JTextField;
 
+@SuppressWarnings("serial")
 public class SettingsView extends JFrame {
 	
 	//set the inputs for the user informations
     JTextField mailAddress= new JTextField();
     JPasswordField password = new JPasswordField(20);
-    JTextField host = new JTextField();
+    
+    JTextField hostPOP = new JTextField();
+    JTextField hostSMTP = new JTextField();
+    JTextField hostIMAP = new JTextField();
+    
     JTextField  port = new JTextField();
     
-    ActionListener listener = new ButtonActionListener(this);
+    ActionListener listener = new SettingsActionListener(this);
     
     public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
@@ -31,13 +37,24 @@ public class SettingsView extends JFrame {
     }
 
     public SettingsView() {
+    	setPreferences();
         initialize();
+    }
+    
+    public void setPreferences(){
+    	MailPreferences prefs = model.MailPreferences.getMailPreferences();
+    	
+	    mailAddress.setText(prefs.getUserAdress());
+	    password.setText(prefs.getPassword());
+     	hostPOP.setText(prefs.getPop3Address());
+    	hostSMTP.setText(prefs.getSmtpAddress());
+	    hostIMAP.setText(prefs.getImapAddress());
     }
    
 private void initialize() {
 	
         setTitle("Settings");
-        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setSize(new Dimension(600,280));
 
         getContentPane().setLayout(new BorderLayout());
@@ -52,12 +69,15 @@ private void initialize() {
         body.add(new JLabel("Password:"));
         body.add(password);
 
-        body.add(new JLabel("Host:"));
-        body.add(host);
+        body.add(new JLabel("Host POP3:"));
+        body.add(hostPOP);
         
-        body.add(new JLabel("Port:"));
-        body.add(port);
-
+        body.add(new JLabel("Host SMTP:"));
+        body.add(hostSMTP);
+        
+        body.add(new JLabel("Host IMAP:"));
+        body.add(hostIMAP);
+        
         //Footer
         JPanel footerPanel = new JPanel();
         footerPanel.setLayout(new FlowLayout());
@@ -80,8 +100,24 @@ private void initialize() {
        
     }
 
-	public String getSender(){
+	public String getUser(){
 		return mailAddress.getText();
+	}
+	
+	public String getPass(){
+		return String.valueOf(password.getPassword());
+	}
+	
+	public String getPOP3Host(){
+		return hostPOP.getText();
+	}
+	
+	public String getSMTPHost(){
+		return hostSMTP.getText();
+	}
+	
+	public String getIMAPHost(){
+		return hostIMAP.getText();
 	}
 
 

@@ -13,7 +13,11 @@ public class Main {
 	}
 
 	private static void initialize(){
-		MailPreferences prefs = model.MailPreferences.getMailPreferences();	
+		/*Test
+		MailPreferences props = model.MailPreferences.getMailPreferences();
+		//props.setProvider("pop.gmail.com", "smtp.gmail.com", "imap.gmail.com");
+		//props.setUser("chsaenduch@gmail.com", "chsaenduch@gmail.com", "saroka04");*/
+		
 		MainView menu = new MainView(msg);
 		menu.setUp();
 	}
