@@ -8,6 +8,9 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,6 +23,11 @@ import control.EmailListCellRenderer;
 
 @SuppressWarnings("serial")
 public class MainView extends JFrame {
+	
+	Locale localeDE = new Locale("de", "CH");
+	Locale localeEN = new Locale("en", "US");
+	
+	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", localeDE);
 	
 	//Get the Mails and create the list
     private JList<Email> inboxList;
@@ -56,9 +64,9 @@ public class MainView extends JFrame {
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		
 		//Add the buttons to this page
-		JButton newMailButton = new JButton("New Mail");
-		JButton updateButton = new JButton("Refresh");
-		JButton removeButton = new JButton("Delete");
+		JButton newMailButton = new JButton(rb.getString("newmail"));
+		JButton updateButton = new JButton(rb.getString("refresh"));
+		JButton removeButton = new JButton(rb.getString("delete"));
 		
 		buttonPanel.add(newMailButton);
 		buttonPanel.add(updateButton);

@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import control.LoginActionListener;
 import model.MailPreferences;
@@ -13,6 +15,11 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class LoginView extends JFrame {
+	
+	Locale localeDE = new Locale("de", "CH");
+	Locale localeEN = new Locale("en", "US");
+	
+	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", localeDE);
 	
 	//set the inputs for the user informations
     JTextField mailAddress= new JTextField();
@@ -63,29 +70,31 @@ private void initialize() {
         JPanel body = new JPanel();
         body.setLayout(new GridLayout(6, 2));
 
-        body.add(new JLabel("E-Mail:"));
+        body.add(new JLabel(rb.getString("email")));
         body.add(mailAddress);
         
-        body.add(new JLabel("Password:"));
+        body.add(new JLabel(rb.getString("password")));
         body.add(password);
 
-        body.add(new JLabel("Host POP3:"));
+        body.add(new JLabel(rb.getString("hostpop3")));
         body.add(hostPOP);
         
-        body.add(new JLabel("Host SMTP:"));
+        body.add(new JLabel(rb.getString("hostsmtp")));
         body.add(hostSMTP);
         
-        body.add(new JLabel("Host IMAP:"));
+        body.add(new JLabel(rb.getString("hostimap")));
         body.add(hostIMAP);
+        
+        body.add(new JLabel("Language"));
         
         //Footer
         JPanel footerPanel = new JPanel();
         footerPanel.setLayout(new FlowLayout());
         
-        JButton saveExit = new JButton("Save and Login");
+        JButton saveExit = new JButton(rb.getString("savelogin"));
         footerPanel.add(saveExit, BorderLayout.SOUTH);
 
-        JButton discard = new JButton("Exit");
+        JButton discard = new JButton(rb.getString("exit"));
         footerPanel.add(discard, BorderLayout.EAST);
         
         getContentPane().add(body, BorderLayout.CENTER);
@@ -97,6 +106,15 @@ private void initialize() {
         
         discard.setActionCommand("discardSettings");
         discard.addActionListener(listener);
+        
+        // Array for the JComboBox
+        String comboBoxListe[] = {"Deutsch", "English"};
+ 
+        //JComboBox with the possible Languages
+        JComboBox languageBox = new JComboBox(comboBoxListe);
+ 
+        //JComboBox to the Panel
+        body.add(languageBox);
        
     }
 

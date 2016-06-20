@@ -3,11 +3,18 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class ReadView extends JFrame {
+	
+	Locale localeDE = new Locale("de", "CH");
+	Locale localeEN = new Locale("en", "US");
+	
+	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", localeDE);
 	   
     //set font for JLabel
 	JLabel fromField = new JLabel("");
@@ -45,23 +52,23 @@ private void initialize() {
         // Header Panel
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new GridLayout(6, 2));
-        headerPanel.add(new JLabel("From:"));
+        headerPanel.add(new JLabel(rb.getString("from")));
         headerPanel.add(fromField);
 
-        headerPanel.add(new JLabel("Subject:"));
+        headerPanel.add(new JLabel(rb.getString("subject")));
         headerPanel.add(subjectField);
        
        
         // Body Panel
         JPanel bodyPanel = new JPanel();
         bodyPanel.setLayout(new BorderLayout());
-        bodyPanel.add(new JLabel("Message:"), BorderLayout.NORTH);
+        bodyPanel.add(new JLabel(rb.getString("message")), BorderLayout.NORTH);
         contentTextArea.setFont(msgFont);
         bodyPanel.add(contentTextArea, BorderLayout.CENTER);
 
         JPanel footerPanel = new JPanel();
         footerPanel.setLayout(new BorderLayout());
-        JButton sendMailButton = new JButton("Close");
+        JButton sendMailButton = new JButton(rb.getString("close"));
         footerPanel.add(sendMailButton, BorderLayout.SOUTH);
 
         //add the panels to the frame
