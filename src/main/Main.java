@@ -3,6 +3,7 @@ import control.EmailService;
 import model.EmailListModel;
 import model.MailPreferences;
 import view.MainView;
+import view.SettingsView;
 
 public class Main {
 	static MainView view;
@@ -10,16 +11,17 @@ public class Main {
 	private static EmailListModel msg;
 	
 	public static void main(String[] args) {
-		//Set up standart user/ example user
 		MailPreferences prefs = model.MailPreferences.getMailPreferences();
-		prefs.setUser("username", "email@gmail.com","******");
-		prefs.setProvider("pop.gmail.com", "smtp.gmail.com","imap.gmail.com");
-		
-		msg = new EmailListModel(mailservice.getEmails());
+		if(!prefs.getImapAddress().isEmpty()){
 		initialize();
+		}else{
+			SettingsView settings = new SettingsView();
+			settings.setVisible(true);
+		}
 	}
 
-	private static void initialize(){		
+	private static void initialize(){
+		msg = new EmailListModel(mailservice.getEmails());
 		MainView menu = new MainView(msg);
 		menu.setUp();
 	}
