@@ -82,7 +82,7 @@ private void initialize() {
         JPanel footerPanel = new JPanel();
         footerPanel.setLayout(new FlowLayout());
         
-        JButton saveExit = new JButton("Save and Login");
+        JButton saveExit = new JButton("Save");
         footerPanel.add(saveExit, BorderLayout.SOUTH);
 
         JButton discard = new JButton("Exit");

@@ -77,7 +77,7 @@ public class EmailService implements IEmailService {
                                            
             storeNewMessages(messages);
 
-            folder.close(true);
+            folder.close(false);
             store.close();
 
         }
@@ -137,7 +137,6 @@ public class EmailService implements IEmailService {
                 
                 // Write Email to JSON File
                 file = new FileWriter(MailPreferences.getMailPreferences().getInboxPath(), true);
-                
                 file.append(System.getProperty("line.separator"));
                 file.flush();
                 file.close();
@@ -161,7 +160,8 @@ public class EmailService implements IEmailService {
         ArrayList<Email>      emailObjects = new ArrayList<>();
 
         try {
-            @SuppressWarnings("resource")
+           
+			@SuppressWarnings("resource")
 			Scanner jsonScanner = new Scanner(new File(MailPreferences.getMailPreferences().getInboxPath()), "UTF-8");
 
             // Reading each line of file and parse content to JSON-Object

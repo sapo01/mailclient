@@ -48,8 +48,7 @@ public class MainView extends JFrame {
 		preview.setFont(new Font(Font.DIALOG, Font.ITALIC, 10));
 		
 		mainPanel.add(name,BorderLayout.PAGE_START);
-		mainPanel.add(inboxList);
-		inboxList.add(inboxPane);		
+		mainPanel.add(inboxList);		
 		
 		
 		JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -96,8 +95,5 @@ public class MainView extends JFrame {
 	public JList getList(){
 		return inboxList;
 	}
-	public void updateList(EmailListModel inboxListModel){
-		inboxList.updateUI();
-	}
-    
+	    
 }
