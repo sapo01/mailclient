@@ -2,6 +2,7 @@ package control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 
 import javax.swing.JOptionPane;
 
@@ -35,7 +36,11 @@ public class SettingsActionListener implements ActionListener {
 			     	settings.setVisible(true);
 			     	break;
 				case "language":
-			     	System.out.println(settings.getLanguage());
+					if(settings.getLanguage()== "Deutsch"){
+			     	    MailPreferences.getMailPreferences().setLanguage(new Locale("de","CH"));
+					}else{
+						MailPreferences.getMailPreferences().setLanguage(new Locale("en","US"));
+					}
 			     	break;
 				default: 
 					System.out.println("Command not exists");

@@ -10,14 +10,12 @@ import javax.swing.*;
 import javax.swing.JTextField;
 
 import control.SendActionListener;
+import model.MailPreferences;
 
 @SuppressWarnings("serial")
 public class SendView extends JFrame {
 	
-	Locale localeDE = new Locale("de", "CH");
-	Locale localeEN = new Locale("en", "US");
-	
-	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", localeDE);
+	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", MailPreferences.getMailPreferences().getLanguage());
 	
     JTextField toField = new JTextField();
     JTextField ccField = new JTextField();

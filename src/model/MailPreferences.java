@@ -2,6 +2,7 @@ package model;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
@@ -23,7 +24,8 @@ public class MailPreferences {
     private static final String userAddress = "userAddress";
     private static final String passwd      = "password";
     private static final String inboxPath   = "inboxPath";
-
+    //Language infos
+    private static       Locale language;
     //Provider variables
     private static final String pop3Address = "pop3Address";
     private static final String pop3Port    = "pop3Port";
@@ -32,7 +34,6 @@ public class MailPreferences {
     private static final String imapAddress = "imapAddress";
     private static final String imapPort    = "imapPort";
     private static final String tlsEnabled  = "tlsEnabled";
-    private static final String language 	= "language";
 
 
     public Preferences prefs;
@@ -116,10 +117,13 @@ public class MailPreferences {
         return prefs.get(tlsEnabled, "TlsEnabled");
     }
     
-    public String getLanguage() {
-		return prefs.get(language, "Language");
+    public Locale getLanguage() {
+		return language;
 	}
     
+    public void setLanguage(Locale input){
+    	this.language = input;
+    }
 
     /**
      * Sets Provider with standard POP3 and SMTP Ports (995 and 587) and TLS enabled.

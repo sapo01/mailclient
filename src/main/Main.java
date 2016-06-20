@@ -1,7 +1,10 @@
 package main;
 
+import java.util.Locale;
+
 import control.EmailService;
 import model.EmailListModel;
+import model.MailPreferences;
 import view.MainView;
 
 public class Main {
@@ -15,6 +18,7 @@ public class Main {
 	}
 
 	private static void initialize(){
+		MailPreferences.getMailPreferences().setLanguage(new Locale("de","CH"));
 		view = new MainView(msg);
 		view.setUp();
 	}

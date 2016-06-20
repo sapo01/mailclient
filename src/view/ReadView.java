@@ -8,14 +8,13 @@ import java.util.ResourceBundle;
 
 import javax.swing.*;
 
+import model.MailPreferences;
+
 @SuppressWarnings("serial")
 public class ReadView extends JFrame {
 	
-	Locale localeDE = new Locale("de", "CH");
-	Locale localeEN = new Locale("en", "US");
+	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", MailPreferences.getMailPreferences().getLanguage());
 	
-	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", localeDE);
-	   
     //set font for JLabel
 	JLabel fromField = new JLabel("");
 	JLabel subjectField = new JLabel("");

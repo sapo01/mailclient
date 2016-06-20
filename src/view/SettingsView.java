@@ -18,10 +18,7 @@ public class SettingsView extends JFrame {
 	 // Array for the JComboBox
     String comboBoxListe[] = {"Deutsch", "English"};
 
-	Locale localeDE = new Locale("de", "CH");
-	Locale localeEN = new Locale("en", "US");
-	
-	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", localeDE);
+    ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", MailPreferences.getMailPreferences().getLanguage());
 	
 	//set the inputs for the user informations
     JTextField mailAddress= new JTextField();

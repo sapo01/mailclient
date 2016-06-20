@@ -2,7 +2,7 @@ package view;
 
 import model.Email;
 import model.EmailListModel;
-
+import model.MailPreferences;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -23,11 +23,8 @@ import control.EmailListCellRenderer;
 
 @SuppressWarnings("serial")
 public class MainView extends JFrame {
-	
-	Locale localeDE = new Locale("de", "CH");
-	Locale localeEN = new Locale("en", "US");
-	
-	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", localeDE);
+		
+	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", MailPreferences.getMailPreferences().getLanguage());
 	
 	//Get the Mails and create the list
     private JList<Email> inboxList;
