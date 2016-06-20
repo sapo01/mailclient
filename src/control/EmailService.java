@@ -1,5 +1,6 @@
 package control;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.logging.Logger;
 import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Flags;
+import javax.mail.Flags.Flag;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -35,6 +37,7 @@ import model.MailPreferences;
  */
 public class EmailService implements IEmailService {
 
+	private static final String JSON_ID   = "Id";
     private static final String JSON_SENDER   = "From";
     private static final String JSON_RECEIVER = "To";
     private static final String JSON_SUBJECT  = "Subject";
@@ -72,34 +75,14 @@ public class EmailService implements IEmailService {
             Folder folder = store.getFolder("inbox");
 
             // Open the Folder
-            folder.open(Folder.READ_ONLY);
+            folder.open(Folder.READ_WRITE);
 
             // Get the new messages from the server and store locally
             Message[] messages = folder.getMessages();
-            
-            //TEST SANdro
-            Message msg = folder.getMessage(folder.getMessageCount());
-            Address[] in = msg.getFrom();
-            for (Address address : in) {
-                System.out.println("FROM:" + address.toString());
-            }
-            Multipart mp = (Multipart) msg.getContent();
-			
-            BodyPart bp = mp.getBodyPart(0);
-            System.out.println("SENT DATE:" + msg.getSentDate());
-            System.out.println("SUBJECT:" + msg.getSubject());
-            try {
-				System.out.println("CONTENT:" + bp.getContent());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-            //.------------
-            
-            
+                                           
             storeNewMessages(messages);
 
-            folder.close(true);
+            folder.close(false);
             store.close();
 
         }
@@ -108,10 +91,7 @@ public class EmailService implements IEmailService {
         }
         catch (MessagingException e) {
         	System.out.println("Messages in POP3 Inbox could not be accessed" + e);
-        } catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+        }
         // After appending new Emails to inbox file, get all Emails from inbox file
         return getEmailsFromInboxFile();
     }
@@ -119,20 +99,22 @@ public class EmailService implements IEmailService {
     // Suppress unchecked warning since JSONObject inherits from HashMap, but does not allow ParameterTypes
     @SuppressWarnings("unchecked")
     private static void storeNewMessages (Message[] messages) {
-
+    	
         // Reformat each message into JSON Object and append to file
         for (Message msg : messages) {
-
+        	
+        	
             FileWriter file = null;
             try {
                 JSONObject jsonEmail = new JSONObject();
-
                 // Get and put From
-                String from = InternetAddress.toString(msg.getFrom());
-                if (from != null) {
-                    jsonEmail.put(JSON_SENDER, from);
+                Address[] in = msg.getFrom();
+                for (Address address : in) {
+                	jsonEmail.put(JSON_SENDER, address.toString());
                 }
-
+                
+                Multipart mp = (Multipart) msg.getContent();
+    			
                 // Get and put To
                 String to = InternetAddress.toString(msg.getRecipients(Message.RecipientType.TO));
                 if (to != null) {
@@ -148,33 +130,36 @@ public class EmailService implements IEmailService {
                 // Get and put SentDate
                 Date sent = msg.getSentDate();
                 if (sent != null) {
-                    jsonEmail.put(JSON_SENTDATE, sent);
+                    jsonEmail.put(JSON_SENTDATE, sent.toString());
                 }
-
+                
+                BodyPart bp = mp.getBodyPart(0);
                 // Get and put Content
-                String content = msg.getContent().toString();
+                String content = bp.getContent().toString();
                 if (content != null) {
                     jsonEmail.put(JSON_MESSAGE, content);
                 }
-
+                
+                
                 // Write Email to JSON File
                 file = new FileWriter(MailPreferences.getMailPreferences().getInboxPath(), true);
                 file.append(jsonEmail.toJSONString());
+                System.out.println(jsonEmail.toJSONString());
                 file.append(System.getProperty("line.separator"));
                 file.flush();
                 file.close();
 
-                // Mark this message for deletion when the session is closed
+                // Mark this message as deleted when the session is closed
                 msg.setFlag(Flags.Flag.DELETED, true);
             }
             catch (MessagingException msgEx) {
-                Logger.getLogger("A message could not be stored to the JSON File");
+                System.out.println("A message could not be stored to the JSON File " + msgEx);
             }
             catch (IOException ioEX) {
-                Logger.getLogger("JSON File could not be written");
+            	 System.out.println("JSON File could not be written");
             }
         }
-        Logger.getLogger("New messages stored to JSON");
+        System.out.println("New messages stored to JSON");
     }
 
     private static ArrayList<Email> getEmailsFromInboxFile() {
@@ -196,18 +181,18 @@ public class EmailService implements IEmailService {
             for (JSONObject obj : jsonObjects) {
 
                 // Get receivers from message object
-                String                 receivers       = (String) obj.get("to");
+                final String receivers       = (String) obj.get("to");
                 
                 // Generate Email Object and add it to ArrayList of Email objects
-                //TODO: Get ID from AI Counter and refactor receiver as string
+                //TODO: Get ID from AI Counter
                 emailObjects.add(new Email((String) obj.get(JSON_SENDER), receivers, (String) obj.get(JSON_SUBJECT), (String) obj.get(JSON_MESSAGE)));
             }
         }
         catch (ParseException parseEx) {
-        	System.out.println("JSON Object from file could not be parsed");
+        	System.out.println("JSON Object from file could not be parsed " + parseEx);
         }
         catch (IOException ioEx) {
-        	System.out.println("JSON File could not be opened for readout");
+        	System.out.println("JSON File could not be opened for readout " + ioEx);
         }
 
         return emailObjects;

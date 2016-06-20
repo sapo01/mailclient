@@ -1,11 +1,8 @@
 package control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
-import javax.swing.text.View;
-
-import model.Email;
+import javax.swing.SwingWorker;
 import model.MailPreferences;
 import model.MessageList;
 import view.SendView;
@@ -13,21 +10,19 @@ import view.SettingsView;
 
 public class MainActionListener implements ActionListener {
 	
-	private  JFrame view;
-		
 	public MainActionListener(JFrame view){
-		this.view = view;
 	}
 		
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void actionPerformed(ActionEvent input) {
-		        final MailPreferences prefs = MailPreferences.getMailPreferences();
+		        MailPreferences.getMailPreferences();
 				final String command = input.getActionCommand();
 				
 				final SendView newMail = new SendView();
 				
 				switch(command) {
-				
+	
 				case "deleteMail":
 					MessageList msg = main.Main.getMsgList();
 					msg.remove();
@@ -37,7 +32,8 @@ public class MainActionListener implements ActionListener {
 			     	settings.setVisible(true);
 			     	break;
 				case "updateMails":
-					main.Main.getMailService().getEmails();
+					SwingWorker mySwingWorker = new MySwingWorker();
+					mySwingWorker.execute();
 					break;
 				case "newMail":
 			     	newMail.setVisible(true);
@@ -46,5 +42,17 @@ public class MainActionListener implements ActionListener {
 					System.out.println("Command not exists");
 					break;
 				}
+	}
+}
+
+class MySwingWorker extends SwingWorker<Object, Integer> {
+	private static final int DELAY = 1000;
+	@Override
+	protected Object doInBackground() throws Exception {
+		while (!isCancelled()) {
+			main.Main.getMailService().getEmails();
+			this.cancel(true);
+		}
+		return null;
 	}
 }

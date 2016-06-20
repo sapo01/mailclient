@@ -26,7 +26,7 @@ public class EmailListCellRenderer implements ListCellRenderer
 
         String messageSubstr = mail.getMessage().length() > 100 ? mail.getMessage().substring(0, 100) + "..." : mail.getMessage();
 
-        if(mail.isUnread()){
+        if(!mail.isRead()){
              boldText = "700";
         } else {
             boldText = "300";

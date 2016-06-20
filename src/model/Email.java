@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -15,8 +14,8 @@ public class Email {
     private String            recipents;
     private String            subject;
     private String            message;
-    private boolean           isUnread;
-    //Second constructor incl. attachments ?
+    private boolean 		  read;
+    //Add eventually..(if enough time)
     private ArrayList<Byte[]> attachments;
 
     public Email (String sender, String recipients, String subject, String message) {
@@ -55,9 +54,12 @@ public class Email {
     {
         return attachments.size() > 0;
     }
-    public boolean isUnread()
-    {
-        //TODO ^^
-        return Math.random() > 0.5;
+    
+    public boolean isRead(){
+    	return this.read;
+    }
+    
+    public void setRead(){
+    	this.read = true;
     }
 }

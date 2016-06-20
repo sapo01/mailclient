@@ -8,8 +8,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,21 +20,16 @@ import control.EmailListCellRenderer;
 
 @SuppressWarnings("serial")
 public class MainView extends JFrame {
-	//TESTING------
-	private ArrayList<Email> testList = new ArrayList<Email>();
-		
-	Email test = new Email("Sender", "To ? ","Hallo","Text");
-	Email test1 = new Email("Sender2", "Recipients","Test","Test");
 	
-		
-	EmailListModel inboxListModel = new EmailListModel(testList); //here get new Mails
+	//Get the Mails and create the list
+	EmailListModel inboxListModel = new EmailListModel(main.Main.getMailService().getEmails());
     JList<Email> inboxList = new JList<>(inboxListModel);
 	JScrollPane inboxPane = new JScrollPane(inboxList);
     //----------------
+	
 	@SuppressWarnings("unchecked")
 	public MainView(MessageList msg){
 		inboxList.setCellRenderer(new EmailListCellRenderer());
-		inboxListModel.addEntry(test);
 	}
 		
 	ActionListener listener = new MainActionListener(this);
@@ -62,7 +55,7 @@ public class MainView extends JFrame {
 		
 		//Add the buttons to this page
 		JButton newMailButton = new JButton("New Mail");
-		JButton updateButton = new JButton("Get Mails");
+		JButton updateButton = new JButton("Refresh");
 		JButton removeButton = new JButton("Delete");
 		JButton settingsButton = new JButton("Settings");
 		

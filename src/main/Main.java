@@ -1,6 +1,5 @@
 package main;
 import control.EmailService;
-import model.MailPreferences;
 import model.MessageList;
 import view.MainView;
 
@@ -12,12 +11,7 @@ public class Main {
 		initialize();
 	}
 
-	private static void initialize(){
-		/*Test
-		MailPreferences props = model.MailPreferences.getMailPreferences();
-		//props.setProvider("pop.gmail.com", "smtp.gmail.com", "imap.gmail.com");
-		//props.setUser("chsaenduch@gmail.com", "chsaenduch@gmail.com", "****");*/
-		
+	private static void initialize(){		
 		MainView menu = new MainView(msg);
 		menu.setUp();
 	}
