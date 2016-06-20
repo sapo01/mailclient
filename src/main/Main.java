@@ -16,7 +16,7 @@ public class Main {
 		/*Test
 		MailPreferences props = model.MailPreferences.getMailPreferences();
 		//props.setProvider("pop.gmail.com", "smtp.gmail.com", "imap.gmail.com");
-		//props.setUser("chsaenduch@gmail.com", "chsaenduch@gmail.com", "saroka04");*/
+		//props.setUser("chsaenduch@gmail.com", "chsaenduch@gmail.com", "****");*/
 		
 		MainView menu = new MainView(msg);
 		menu.setUp();
