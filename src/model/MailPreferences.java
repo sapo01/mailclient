@@ -34,7 +34,7 @@ public class MailPreferences {
     private static final String tlsEnabled  = "tlsEnabled";
 
 
-    private Preferences prefs;
+    public Preferences prefs;
 
     public MailPreferences () {
         // This will define a node in which the preferences can be stored
