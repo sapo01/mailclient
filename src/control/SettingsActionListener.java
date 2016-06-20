@@ -34,6 +34,9 @@ public class SettingsActionListener implements ActionListener {
 				case "openSettings":
 			     	settings.setVisible(true);
 			     	break;
+				case "language":
+			     	System.out.println(settings.getLanguage());
+			     	break;
 				default: 
 					System.out.println("Command not exists");
 					break;

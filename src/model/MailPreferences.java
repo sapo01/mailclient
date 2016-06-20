@@ -32,6 +32,7 @@ public class MailPreferences {
     private static final String imapAddress = "imapAddress";
     private static final String imapPort    = "imapPort";
     private static final String tlsEnabled  = "tlsEnabled";
+    private static final String language 	= "language";
 
 
     public Preferences prefs;
@@ -114,7 +115,11 @@ public class MailPreferences {
     public String getTlsEnabled () {
         return prefs.get(tlsEnabled, "TlsEnabled");
     }
-
+    
+    public String getLanguage() {
+		return prefs.get(language, "Language");
+	}
+    
 
     /**
      * Sets Provider with standard POP3 and SMTP Ports (995 and 587) and TLS enabled.
@@ -135,4 +140,5 @@ public class MailPreferences {
         prefs.put(imapPort, imapPortNumber);
         prefs.put(tlsEnabled, tls);
     }
+
 }
