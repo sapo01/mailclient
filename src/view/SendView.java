@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.*;
 import javax.swing.JTextField;
@@ -11,6 +13,11 @@ import control.SendActionListener;
 
 @SuppressWarnings("serial")
 public class SendView extends JFrame {
+	
+	Locale localeDE = new Locale("de", "CH");
+	Locale localeEN = new Locale("en", "US");
+	
+	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", localeDE);
 	
     JTextField toField = new JTextField();
     JTextField ccField = new JTextField();
@@ -45,26 +52,26 @@ private void Initialize() {
         headerPanel.setLayout(new GridLayout(6, 2));
       
 
-        headerPanel.add(new JLabel("To:"));
+        headerPanel.add(new JLabel(rb.getString("to")));
         headerPanel.add(toField);
         
-        headerPanel.add(new JLabel("Cc:"));
+        headerPanel.add(new JLabel(rb.getString("cc")));
         headerPanel.add(ccField);
 
-        headerPanel.add(new JLabel("Subject:"));
+        headerPanel.add(new JLabel(rb.getString("subject")));
         headerPanel.add(subjectField);
 
         
         // Body Panel
         JPanel bodyPanel = new JPanel();
         bodyPanel.setLayout(new BorderLayout());
-        bodyPanel.add(new JLabel("Message:"), BorderLayout.NORTH);
+        bodyPanel.add(new JLabel(rb.getString("message")), BorderLayout.NORTH);
         bodyPanel.add(contentTextArea, BorderLayout.CENTER);
 
         JPanel footerPanel = new JPanel();
         footerPanel.setLayout(new BorderLayout());
         
-        JButton sendMailButton = new JButton("Send E-mail");
+        JButton sendMailButton = new JButton(rb.getString("sendmail"));
         
         sendMailButton.setActionCommand("sendMail");
         sendMailButton.addActionListener(listener);
