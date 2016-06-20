@@ -59,12 +59,10 @@ public class MainView extends JFrame {
 		JButton newMailButton = new JButton("New Mail");
 		JButton updateButton = new JButton("Refresh");
 		JButton removeButton = new JButton("Delete");
-		JButton settingsButton = new JButton("Settings");
 		
 		buttonPanel.add(newMailButton);
 		buttonPanel.add(updateButton);
 		buttonPanel.add(removeButton);
-		buttonPanel.add(settingsButton);
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 		
@@ -73,10 +71,7 @@ public class MainView extends JFrame {
 		
 		updateButton.setActionCommand("updateMails");
 		updateButton.addActionListener(listener);
-		
-		settingsButton.setActionCommand("openSettings");
-		settingsButton.addActionListener(listener);
-		
+				
 		removeButton.setActionCommand("deleteMail");
 		removeButton.addActionListener(listener);
 		

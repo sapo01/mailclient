@@ -20,6 +20,7 @@ public class SendActionListener implements ActionListener {
 		        final MailPreferences prefs = MailPreferences.getMailPreferences();
 				Email mail = new Email(prefs.getUserAdress(),SendMail.getTo(), SendMail.getSubject(),SendMail.getMessage());
 				main.Main.getMailService().sendMail(mail);
+				SendMail.setVisible(false);
 	}
 
 }

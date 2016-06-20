@@ -33,7 +33,6 @@ import model.MailPreferences;
  */
 public class EmailService implements IEmailService {
 
-	private static final String JSON_ID   = "Id";
     private static final String JSON_SENDER   = "From";
     private static final String JSON_RECEIVER = "To";
     private static final String JSON_SUBJECT  = "Subject";

@@ -4,7 +4,6 @@ import java.awt.event.ActionListener;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
@@ -12,11 +11,12 @@ import model.EmailListModel;
 import model.MailPreferences;
 import view.MainView;
 import view.SendView;
-import view.SettingsView;
+import view.LoginView;
 
 public class MainActionListener implements ActionListener {
 	private static MainView view;
 	
+	@SuppressWarnings("static-access")
 	public MainActionListener(MainView view){
 		this.view = view;
 	}
@@ -32,13 +32,15 @@ public class MainActionListener implements ActionListener {
 				switch(command) {
 	
 				case "deleteMail":
-					EmailListModel list = main.Main.getMsgList();
+					EmailListModel list = control.LoginActionListener.getMsgList();
 					int msg = view.getList().getSelectedIndex(); 
 					list.remove(msg);
 					break;
 				case "openSettings":
-					SettingsView settings = new SettingsView();
+					LoginView settings = new LoginView();
 			     	settings.setVisible(true);
+			     	view.setVisible(false);
+			     	view.dispose();
 			     	break;
 				case "updateMails":
 					SwingWorker mySwingWorker = new MySwingWorker();
@@ -71,7 +73,7 @@ class MySwingWorker extends SwingWorker<Object, Integer> {
 	
 	protected void done(){
 		Date date = new Date();
-		JOptionPane.showMessageDialog(main.Main.getMainView(), "Updated at " + new Timestamp(date.getTime()));
+		JOptionPane.showMessageDialog(control.LoginActionListener.getMainView(), "Updated at " + new Timestamp(date.getTime()));
 	}
 
 }

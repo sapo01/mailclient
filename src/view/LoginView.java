@@ -5,14 +5,14 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
-import control.SettingsActionListener;
+import control.LoginActionListener;
 import model.MailPreferences;
 
 import javax.swing.*;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
-public class SettingsView extends JFrame {
+public class LoginView extends JFrame {
 	
 	//set the inputs for the user informations
     JTextField mailAddress= new JTextField();
@@ -24,19 +24,19 @@ public class SettingsView extends JFrame {
     
     JTextField  port = new JTextField();
     
-    ActionListener listener = new SettingsActionListener(this);
+    ActionListener listener = new LoginActionListener(this);
     
     public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
         @Override
         public void run() {
-        	SettingsView settings = new SettingsView();
+        	LoginView settings = new LoginView();
         	settings.setVisible(true);
         }
     });    
     }
 
-    public SettingsView() {
+    public LoginView() {
     	setPreferences();
         initialize();
     }
@@ -53,7 +53,7 @@ public class SettingsView extends JFrame {
    
 private void initialize() {
 	
-        setTitle("Settings");
+        setTitle("Login");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setSize(new Dimension(600,280));
 
@@ -82,10 +82,10 @@ private void initialize() {
         JPanel footerPanel = new JPanel();
         footerPanel.setLayout(new FlowLayout());
         
-        JButton saveExit = new JButton("Save and Exit");
+        JButton saveExit = new JButton("Save and Login");
         footerPanel.add(saveExit, BorderLayout.SOUTH);
 
-        JButton discard = new JButton("Discard");
+        JButton discard = new JButton("Exit");
         footerPanel.add(discard, BorderLayout.EAST);
         
         getContentPane().add(body, BorderLayout.CENTER);
