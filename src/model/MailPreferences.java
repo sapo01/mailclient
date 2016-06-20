@@ -128,7 +128,7 @@ public class MailPreferences {
      * @param smtpAddr SMTP Address of Mail Server
      */
     public void setProvider (String pop3Addr, String smtpAddr, String imapAddr) {
-        setProvider(pop3Addr, "995", smtpAddr, "587",imapAddr ,"995", "true");
+        setProvider(pop3Addr, "995", smtpAddr, "587",imapAddr ,"993", "true");
     }
 
     public void setProvider (String pop3Addr, String pop3PortNumber, String smtpAddr, String smtpPortNumber,String imapAddr, String imapPortNumber, String tls) {

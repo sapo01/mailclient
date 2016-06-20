@@ -18,6 +18,7 @@ public class Main {
 	}
 
 	private static void initialize(){
+				
 		//Create new mailStorageFile if not already exists
 		File jsonMails = new File(model.MailPreferences.getMailPreferences().getInboxPath());
 		

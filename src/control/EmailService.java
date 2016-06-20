@@ -54,7 +54,7 @@ public class EmailService implements IEmailService {
 
         // Request IMAPS
         properties.setProperty("mail.store.protocol", "imaps");
-
+        
         // Get the default Session object
         Session session = Session.getDefaultInstance(properties, null);
 
@@ -67,22 +67,21 @@ public class EmailService implements IEmailService {
             store.connect(host, user, password);
 
             // Create a Folder object corresponding to the given name
-            Folder folder = store.getFolder("inbox");
+            Folder folder = store.getFolder("INBOX");
 
             // Open the Folder
             folder.open(Folder.READ_WRITE);
 
             // Get the new messages from the server and store locally
             Message[] messages = folder.getMessages();
-                                           
             storeNewMessages(messages);
 
-            folder.close(false);
+            folder.close(true);
             store.close();
 
         }
         catch (NoSuchProviderException e) {
-            System.out.println("Connection to POP3 Inbox failed" + e);
+            System.out.println("Connection to Inbox failed" + e);
         }
         catch (MessagingException e) {
         	System.out.println("Messages in POP3 Inbox could not be accessed" + e);
@@ -130,6 +129,7 @@ public class EmailService implements IEmailService {
                 BodyPart bp = mp.getBodyPart(0);
                 // Get and put Content
                 String content = bp.getContent().toString();
+                System.out.println(content);
                 if (content != null) {
                     jsonEmail.put(JSON_MESSAGE, content);
                 }
