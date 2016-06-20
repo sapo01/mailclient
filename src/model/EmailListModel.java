@@ -8,14 +8,16 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class EmailListModel extends AbstractListModel<Email>
 {
-    private final ArrayList<Email> emails;
-
+    private ArrayList<Email> emails;
+    private int size;
+        
     public EmailListModel(final ArrayList<Email> inputData)
     {
         this.emails = new ArrayList<>(inputData);
+        this.size = this.emails.size();
     }
-
-    @Override
+    
+	@Override
     public int getSize()
     {
         return this.emails.size();
@@ -44,4 +46,10 @@ public class EmailListModel extends AbstractListModel<Email>
     {
         fireContentsChanged(this, startIndex, endIndex);
     }
+    
+    public void remove(final int index){
+		this.emails.remove(index);
+		fireIntervalRemoved(this,size,size);
+		
+	}
 }

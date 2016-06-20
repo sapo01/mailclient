@@ -2,7 +2,7 @@ package view;
 
 import model.Email;
 import model.EmailListModel;
-import model.MessageList;
+
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -22,14 +22,15 @@ import control.EmailListCellRenderer;
 public class MainView extends JFrame {
 	
 	//Get the Mails and create the list
-	EmailListModel inboxListModel = new EmailListModel(main.Main.getMailService().getEmails());
-    JList<Email> inboxList = new JList<>(inboxListModel);
-	JScrollPane inboxPane = new JScrollPane(inboxList);
+    private JList<Email> inboxList;
+	private JScrollPane inboxPane;
     //----------------
 	
 	@SuppressWarnings("unchecked")
-	public MainView(MessageList msg){
+	public MainView(EmailListModel inboxListModel){
+		inboxList = new JList<>(inboxListModel);
 		inboxList.setCellRenderer(new EmailListCellRenderer());
+		inboxPane = new JScrollPane(inboxList);
 	}
 		
 	ActionListener listener = new MainActionListener(this);
@@ -48,8 +49,9 @@ public class MainView extends JFrame {
 		
 		
 		mainPanel.add(name,BorderLayout.PAGE_START);
-		mainPanel.add(inboxPane,BorderLayout.AFTER_LINE_ENDS);
-		mainPanel.add(inboxList,BorderLayout.CENTER);
+		mainPanel.add(inboxList);
+		inboxList.add(inboxPane);		
+		
 		
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		
@@ -89,6 +91,11 @@ public class MainView extends JFrame {
         frame.setSize(500, 500);
         frame.setVisible(true);
         
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public JList getList(){
+		return inboxList;
 	}
     
 }

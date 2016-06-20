@@ -1,18 +1,14 @@
 package control;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Scanner;
-import java.util.logging.Logger;
-
 import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Flags;
-import javax.mail.Flags.Flag;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -102,7 +98,6 @@ public class EmailService implements IEmailService {
     	
         // Reformat each message into JSON Object and append to file
         for (Message msg : messages) {
-        	
         	
             FileWriter file = null;
             try {

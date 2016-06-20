@@ -1,11 +1,12 @@
 package main;
 import control.EmailService;
-import model.MessageList;
+import model.EmailListModel;
 import view.MainView;
 
 public class Main {
+	static MainView view;
 	static EmailService mailservice = new EmailService();
-	private static MessageList msg = new MessageList();
+	private static EmailListModel msg = new EmailListModel(mailservice.getEmails());
 	
 	public static void main(String[] args) {
 		initialize();
@@ -20,8 +21,12 @@ public class Main {
 		return mailservice;
 	}
 	
-	public static MessageList getMsgList(){
+	public static EmailListModel getMsgList(){
 		return msg;
+	}
+	
+	public static MainView getMainView(){
+		return view;
 	}
 	
 }

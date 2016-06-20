@@ -16,7 +16,6 @@ public class EmailListCellRenderer implements ListCellRenderer
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
     {
     	//Test the Object ..
-
         JLabel renderer = (JLabel) defaultRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
         Font   font = new Font("Helvetica", Font.PLAIN, 13);
