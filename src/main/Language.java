@@ -8,5 +8,5 @@ public class Language {
 	Locale localeDE = new Locale("de", "CH");
 	Locale localeEN = new Locale("en", "US");
 	
-	ResourceBundle rb = ResourceBundle.getBundle("ressources", localeDE);
+	ResourceBundle rb = ResourceBundle.getBundle("ressources.ressources", localeDE);
 }
