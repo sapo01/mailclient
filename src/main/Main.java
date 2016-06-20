@@ -1,8 +1,5 @@
 package main;
 
-import java.io.File;
-import java.io.IOException;
-
 import control.EmailService;
 import model.EmailListModel;
 import view.MainView;
@@ -18,20 +15,8 @@ public class Main {
 	}
 
 	private static void initialize(){
-				
-		//Create new mailStorageFile if not already exists
-		File jsonMails = new File(model.MailPreferences.getMailPreferences().getInboxPath());
-		
-		if(jsonMails.exists()){
 		view = new MainView(msg);
 		view.setUp();
-		}else{
-			try {
-				jsonMails.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	public static EmailService getMailService(){

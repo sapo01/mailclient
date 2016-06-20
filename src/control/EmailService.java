@@ -40,10 +40,10 @@ public class EmailService implements IEmailService {
     private static final String JSON_MESSAGE  = "Message";
 
     @Override
-    public ArrayList<Email> getEmails () {
+    public ArrayList<Email> getEmails() {
 
         // Username and password
-        final MailPreferences prefs    = MailPreferences.getMailPreferences();
+        final MailPreferences prefs    = model.MailPreferences.getMailPreferences();
         final String          user     = prefs.getUserName();
         final String          password = prefs.getPassword();
 
@@ -100,6 +100,7 @@ public class EmailService implements IEmailService {
             FileWriter file = null;
             try {
                 JSONObject jsonEmail = new JSONObject();
+                
                 // Get and put From
                 Address[] in = msg.getFrom();
                 for (Address address : in) {
@@ -129,20 +130,20 @@ public class EmailService implements IEmailService {
                 BodyPart bp = mp.getBodyPart(0);
                 // Get and put Content
                 String content = bp.getContent().toString();
-                System.out.println(content);
                 if (content != null) {
                     jsonEmail.put(JSON_MESSAGE, content);
                 }
                 
                 
                 // Write Email to JSON File
-                file = new FileWriter(MailPreferences.getMailPreferences().getInboxPath(), true);
+                file = new FileWriter(model.MailPreferences.getMailPreferences().getInboxPath(), true);
+                file.append(jsonEmail.toJSONString());
                 file.append(System.getProperty("line.separator"));
                 file.flush();
                 file.close();
 
                 // Mark this message as deleted when the session is closed
-                msg.setFlag(Flags.Flag.DELETED, true);
+                msg.setFlag(Flags.Flag.SEEN, true);
             }
             catch (MessagingException msgEx) {
                 System.out.println("A message could not be stored to the JSON File " + msgEx);
