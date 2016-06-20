@@ -7,14 +7,14 @@ import java.awt.event.ActionListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import control.LoginActionListener;
+import control.SettingsActionListener;
 import model.MailPreferences;
 
 import javax.swing.*;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
-public class LoginView extends JFrame {
+public class SettingsView extends JFrame {
 	
 	Locale localeDE = new Locale("de", "CH");
 	Locale localeEN = new Locale("en", "US");
@@ -31,19 +31,19 @@ public class LoginView extends JFrame {
     
     JTextField  port = new JTextField();
     
-    ActionListener listener = new LoginActionListener(this);
+    ActionListener listener = new SettingsActionListener(this);
     
     public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
         @Override
         public void run() {
-        	LoginView settings = new LoginView();
+        	SettingsView settings = new SettingsView();
         	settings.setVisible(true);
         }
     });    
     }
 
-    public LoginView() {
+    public SettingsView() {
     	setPreferences();
         initialize();
     }
@@ -60,7 +60,7 @@ public class LoginView extends JFrame {
    
 private void initialize() {
 	
-        setTitle("Login");
+        setTitle("Settings");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setSize(new Dimension(600,280));
 

@@ -77,7 +77,7 @@ public class EmailService implements IEmailService {
                                            
             storeNewMessages(messages);
 
-            folder.close(false);
+            folder.close(true);
             store.close();
 
         }
@@ -137,8 +137,7 @@ public class EmailService implements IEmailService {
                 
                 // Write Email to JSON File
                 file = new FileWriter(MailPreferences.getMailPreferences().getInboxPath(), true);
-                file.append(jsonEmail.toJSONString());
-                System.out.println(jsonEmail.toJSONString());
+                
                 file.append(System.getProperty("line.separator"));
                 file.flush();
                 file.close();
@@ -150,7 +149,7 @@ public class EmailService implements IEmailService {
                 System.out.println("A message could not be stored to the JSON File " + msgEx);
             }
             catch (IOException ioEX) {
-            	 System.out.println("JSON File could not be written");
+            	 System.out.println("JSON File could not be written" + ioEX);
             }
         }
         System.out.println("New messages stored to JSON");
