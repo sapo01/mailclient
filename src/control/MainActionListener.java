@@ -11,7 +11,7 @@ import model.EmailListModel;
 import model.MailPreferences;
 import view.MainView;
 import view.SendView;
-import view.LoginView;
+import view.SettingsView;
 
 public class MainActionListener implements ActionListener {
 	private static MainView view;
@@ -30,17 +30,14 @@ public class MainActionListener implements ActionListener {
 				final SendView newMail = new SendView();
 				
 				switch(command) {
-	
 				case "deleteMail":
-					EmailListModel list = control.LoginActionListener.getMsgList();
+					EmailListModel list = main.Main.getMsgList();
 					int msg = view.getList().getSelectedIndex(); 
 					list.remove(msg);
 					break;
 				case "openSettings":
-					LoginView settings = new LoginView();
+					SettingsView settings = new SettingsView();
 			     	settings.setVisible(true);
-			     	view.setVisible(false);
-			     	view.dispose();
 			     	break;
 				case "updateMails":
 					SwingWorker mySwingWorker = new MySwingWorker();
@@ -73,7 +70,7 @@ class MySwingWorker extends SwingWorker<Object, Integer> {
 	
 	protected void done(){
 		Date date = new Date();
-		JOptionPane.showMessageDialog(control.LoginActionListener.getMainView(), "Updated at " + new Timestamp(date.getTime()));
+		JOptionPane.showMessageDialog(main.Main.getMainView(), "Updated at " + new Timestamp(date.getTime()));
 	}
 
 }

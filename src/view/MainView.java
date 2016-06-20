@@ -47,7 +47,6 @@ public class MainView extends JFrame {
 		JLabel preview = new JLabel(" ");
 		preview.setFont(new Font(Font.DIALOG, Font.ITALIC, 10));
 		
-		
 		mainPanel.add(name,BorderLayout.PAGE_START);
 		mainPanel.add(inboxList);
 		inboxList.add(inboxPane);		
@@ -59,10 +58,12 @@ public class MainView extends JFrame {
 		JButton newMailButton = new JButton("New Mail");
 		JButton updateButton = new JButton("Refresh");
 		JButton removeButton = new JButton("Delete");
+		JButton settingsButton = new JButton("Settings");
 		
 		buttonPanel.add(newMailButton);
 		buttonPanel.add(updateButton);
 		buttonPanel.add(removeButton);
+		buttonPanel.add(settingsButton);
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 		
@@ -74,6 +75,9 @@ public class MainView extends JFrame {
 				
 		removeButton.setActionCommand("deleteMail");
 		removeButton.addActionListener(listener);
+		
+		settingsButton.setActionCommand("openSettings");
+		settingsButton.addActionListener(listener);
 		
 		JFrame frame = new JFrame("Mailclient");
         
@@ -91,6 +95,9 @@ public class MainView extends JFrame {
 	@SuppressWarnings("rawtypes")
 	public JList getList(){
 		return inboxList;
+	}
+	public void updateList(EmailListModel inboxListModel){
+		inboxList.updateUI();
 	}
     
 }
