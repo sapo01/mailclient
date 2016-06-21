@@ -21,17 +21,7 @@ public class SendView extends JFrame {
     JTextArea contentTextArea = new JTextArea();
 
     ActionListener listener = new SendActionListener(this);
-    
-    public static void main(String[] args) {
-    SwingUtilities.invokeLater(new Runnable() {
-        @Override
-        public void run() {
-        	SendView newMail = new SendView();
-            newMail.setVisible(true);
-        }
-    });    
-    }
-
+  
     public SendView() {
         Initialize();
     }
