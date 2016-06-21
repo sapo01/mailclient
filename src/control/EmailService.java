@@ -118,7 +118,7 @@ public class EmailService implements IEmailService {
                 // Mark this message as deleted when the session is closed
                 message.setFlag(Flags.Flag.DELETED, true);
             }
-            storeNewMessages(emailMessages, false);
+            storeNewMessages(emailMessages);
 
             folder.close(true);
             store.close();
@@ -137,7 +137,7 @@ public class EmailService implements IEmailService {
 
     // Suppress unchecked warning since JSONObject inherits from HashMap, but does not allow ParameterTypes
     @SuppressWarnings("unchecked")
-    private static void storeNewMessages (ArrayList<Email> messages, boolean overwrite) {
+    private static void storeNewMessages (ArrayList<Email> messages) {
     	
         // Reformat each message into JSON Object and append to file
         for (Email msg : messages) {
@@ -157,11 +157,9 @@ public class EmailService implements IEmailService {
                 
                
                 // Write Email to JSON File
-                if(overwrite){
-                	file = new FileWriter(model.MailPreferences.getMailPreferences().getInboxPath(), false);
-                }else{
-                	file = new FileWriter(model.MailPreferences.getMailPreferences().getInboxPath(), true);
-                }
+                
+                file = new FileWriter(model.MailPreferences.getMailPreferences().getInboxPath(), true);
+                
                 file.append(jsonEmail.toJSONString());
                 file.append(System.getProperty("line.separator"));
                 file.flush();
@@ -289,9 +287,10 @@ public class EmailService implements IEmailService {
     }
     public void removeEmail(Email mail) {
         ArrayList<Email> boxMails = getEmailsFromInboxFile();
+        
         for (Iterator<Email> it = boxMails.iterator(); it.hasNext(); ) {
             Email storedMail = it.next();
-            if (!storedMail.getId().equals(mail.getId())) {
+            if (storedMail.getId().equals(mail.getId())) {
                 it.remove();
             }
         }
@@ -299,7 +298,7 @@ public class EmailService implements IEmailService {
         try {
             // Write Email to JSON File
             FileWriter file;
-            file = new FileWriter(model.MailPreferences.getMailPreferences().getInboxPath());
+            file = new FileWriter(model.MailPreferences.getMailPreferences().getInboxPath(), false);
             file.append("");
             file.flush();
             file.close();
@@ -307,6 +306,6 @@ public class EmailService implements IEmailService {
         catch (IOException ioEX) {
             System.out.println("JSON File could not be cleared" + ioEX);
         }
-        storeNewMessages(boxMails, true);
+        storeNewMessages(boxMails);
     }
 }
