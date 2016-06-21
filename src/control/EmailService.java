@@ -159,7 +159,6 @@ public class EmailService implements IEmailService {
                 // Write Email to JSON File
                 
                 file = new FileWriter(model.MailPreferences.getMailPreferences().getInboxPath(), true);
-                
                 file.append(jsonEmail.toJSONString());
                 file.append(System.getProperty("line.separator"));
                 file.flush();
@@ -195,7 +194,7 @@ public class EmailService implements IEmailService {
                 // Generate Email Object and add it to ArrayList of Email objects
                 emailObjects.add(
                 		new Email(
-                				UUID.randomUUID().toString(),
+                				(String) obj.get(JSON_ID),
                 				(String) obj.get(JSON_SENTDATE),
                 				(String) obj.get(JSON_SENDER),
                 				(String) obj.get(JSON_RECEIVER),
@@ -261,7 +260,9 @@ public class EmailService implements IEmailService {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
             
             // Set Cc: header field of the header
-            message.addRecipient(Message.RecipientType.CC, new InternetAddress(cc));
+            if (email.hasCC()) {
+            	message.addRecipient(Message.RecipientType.CC, new InternetAddress(cc));
+            }
             
             // Set Subject: header field
             message.setSubject(subject);
@@ -285,26 +286,28 @@ public class EmailService implements IEmailService {
         	System.out.println("Message not sent!" + e);
         }
     }
-    public void removeEmail(Email mail) {
+    public void removeEmail (Email mail) {
         ArrayList<Email> boxMails = getEmailsFromInboxFile();
         
         for (Iterator<Email> it = boxMails.iterator(); it.hasNext(); ) {
             Email storedMail = it.next();
+            System.out.println(storedMail.getId() + "=" + mail.getId() );
             if (storedMail.getId().equals(mail.getId())) {
                 it.remove();
+                System.out.println("TRUE");
             }
         }
- 
         try {
-            // Write Email to JSON File
+            // Write blankJSON File
             FileWriter file;
-            file = new FileWriter(model.MailPreferences.getMailPreferences().getInboxPath(), false);
+            file = new FileWriter(MailPreferences.getMailPreferences().getInboxPath());
             file.append("");
             file.flush();
             file.close();
+            System.out.println("JSON Cleared");
         }
         catch (IOException ioEX) {
-            System.out.println("JSON File could not be cleared" + ioEX);
+            System.out.println("JSON File could not be cleared" +  ioEX);
         }
         storeNewMessages(boxMails);
     }

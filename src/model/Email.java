@@ -30,7 +30,7 @@ public class Email {
         this.message = message;
     }
     
-    public String getId () {
+    public String getId() {
         return this.id;
     }
     
@@ -74,5 +74,9 @@ public class Email {
     
     public void setRead(){
     	this.read = true;
+    }
+    
+    public boolean hasCC(){
+    	return cc.length() > 0;
     }
 }

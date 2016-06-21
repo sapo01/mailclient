@@ -46,7 +46,7 @@ public class EmailListModel extends AbstractListModel<Email>
     {
         fireContentsChanged(this, startIndex, endIndex);
     }
-    //TODO: REMOVE IN JSON 
+    
     public void remove(final int index){
 		this.emails.remove(index);
 		fireIntervalRemoved(this,size,size);

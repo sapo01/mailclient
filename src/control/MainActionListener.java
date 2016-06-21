@@ -33,10 +33,10 @@ public class MainActionListener implements ActionListener {
 				case "deleteMail":
 					EmailListModel list = main.Main.getMsgList();
 					int msg = view.getList().getSelectedIndex(); 
-					list.remove(msg);
 					
 					Email mail = view.getList().getSelectedValue();
 					main.Main.getMailService().removeEmail(mail);
+					list.remove(msg);
 					break;
 				case "openSettings":
 					SettingsView settings = new SettingsView();
