@@ -92,7 +92,7 @@ public class MainView extends JFrame {
 		
 		JFrame frame = new JFrame("Mailclient");
         
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
         
