@@ -17,7 +17,7 @@ public class SettingsView extends JFrame {
 	 // Array for the JComboBox
     String comboBoxListe[] = {"Deutsch", "English"};
 
-    ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", MailPreferences.getMailPreferences().getLanguage());
+    ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", main.Main.getLanguage());
 	
 	//set the inputs for the user informations
     JTextField mailAddress= new JTextField();

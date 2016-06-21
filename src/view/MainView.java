@@ -2,8 +2,6 @@ package view;
 
 import model.Email;
 import model.EmailListModel;
-import model.MailPreferences;
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -27,7 +25,7 @@ import control.EmailListCellRenderer;
 @SuppressWarnings("serial")
 public class MainView extends JFrame {
 		
-	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", MailPreferences.getMailPreferences().getLanguage());
+	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources",  main.Main.getLanguage());
 	
 	//Get the Mails and create the list
     private static JList<Email> inboxList;

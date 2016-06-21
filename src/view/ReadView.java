@@ -9,12 +9,11 @@ import java.util.ResourceBundle;
 import javax.swing.*;
 
 import model.Email;
-import model.MailPreferences;
 
 @SuppressWarnings("serial")
 public class ReadView extends JFrame {
 	
-	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", MailPreferences.getMailPreferences().getLanguage());
+	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources",  main.Main.getLanguage());
 	
     //set font for JLabel
 	JLabel fromField = new JLabel("");
@@ -28,12 +27,14 @@ public class ReadView extends JFrame {
     public ReadView(Email mail) {
     	fromField.setText(mail.getSender());
     	subjectField.setText(mail.getSubject());
-    	MailMessage.setText(mail.getMessage());
+    	String formatted = mail.getMessage().replace("\n", "<br>");
+    	formatted = "<html>" + formatted + "</html>";
+    	MailMessage.setText(formatted);
     	mail.setRead();
         initialize();
     }
    
-private void initialize() {
+    private void initialize() {
         setTitle("Reader");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setSize(new Dimension(600, 480));

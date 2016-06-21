@@ -9,12 +9,11 @@ import javax.swing.*;
 import javax.swing.JTextField;
 
 import control.SendActionListener;
-import model.MailPreferences;
 
 @SuppressWarnings("serial")
 public class SendView extends JFrame {
 	
-	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", MailPreferences.getMailPreferences().getLanguage());
+	ResourceBundle rb = ResourceBundle.getBundle("languages.ressources", main.Main.getLanguage());
 	
     JTextField toField = new JTextField();
     JTextField ccField = new JTextField();
