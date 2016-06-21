@@ -10,6 +10,7 @@ public class Email {
     //TODO: Implement central storage of id, auto incrementing
     private String            id;
     private String            sender;
+    private String 			  sendDate;
     
     private String            recipents;
     private String            cc;
@@ -19,8 +20,9 @@ public class Email {
     //Add eventually..(if enough time)
     private ArrayList<Byte[]> attachments;
 
-    public Email (String id, String sender, String recipients,String cc, String subject, String message) {
+    public Email (String id,String sendDate, String sender, String recipients,String cc, String subject, String message) {
         this.id = id;
+        this.sendDate = sendDate;
     	this.sender = sender;
         this.recipents = recipients;
         this.cc = cc;
@@ -30,6 +32,10 @@ public class Email {
     
     public String getId () {
         return this.id;
+    }
+    
+    public String getSendDate(){
+    	return this.sendDate;
     }
 
     public String getSubject () {

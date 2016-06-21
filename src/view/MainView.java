@@ -94,7 +94,7 @@ public class MainView extends JFrame {
 		
 		JFrame frame = new JFrame("Mailclient");
         
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
         
@@ -103,6 +103,15 @@ public class MainView extends JFrame {
         frame.setSize(500, 500);
         frame.setVisible(true);
         
+        //remove was here -> not working
+//        frame.addWindowListener(new WindowAdapter()
+//    	{
+//    	    public void windowClosing(WindowEvent e)
+//    	    {
+//    	        main.Main.getMailService().storeMessages(inboxList, false);
+//    	        frame.dispose();
+//    	    }
+//    	});
 	}
 	
 	public JList<Email> getList(){
@@ -129,11 +138,6 @@ public class MainView extends JFrame {
 		}
 	};
 	return mouselistener;
-	}
-	
-
-	public void updateList(EmailListModel inboxListModel){
-		
-	}
+	}	
 
 }

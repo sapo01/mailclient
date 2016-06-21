@@ -21,6 +21,7 @@ public class Main {
 	private static void initialize(){
 		//Set default language
 		MailPreferences.getMailPreferences().setLanguage(new Locale("de","CH"));
+		
 		view = new MainView(msg);
 		view.setUp();
 	}

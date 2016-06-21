@@ -3,19 +3,18 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.Scanner;
 import java.util.UUID;
 
-import javax.mail.Address;
-import javax.mail.BodyPart;
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.NoSuchProviderException;
+import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.Transport;
@@ -78,7 +77,48 @@ public class EmailService implements IEmailService {
 
             // Get the new messages from the server and store locally
             Message[] messages = folder.getMessages();
-            storeNewMessages(messages);
+            ArrayList<Email> emailMessages = new ArrayList<>();
+
+            for (Message message : messages) {
+
+                Part   messagePart = message;
+                Object content = null;
+				try {
+					content = messagePart.getContent();
+				} catch (IOException e) {
+					System.out.println("messagePart.getContext" + e);
+				}
+                // -- or its first body part if it is a multipart message --
+                if (content instanceof Multipart) {
+                    messagePart = ((Multipart) content).getBodyPart(0);
+                }
+                // -- Get the content type --
+                String contentType = messagePart.getContentType();
+                String contentText = "";
+                                              
+                // -- If the content is plain text, we can print it --
+                if (contentType.startsWith("text/plain") || contentType.startsWith("text/html")) {
+                    try {
+						contentText = (String) messagePart.getContent();
+					} catch (IOException e) {
+						System.out.println("Test content type" + e);
+					}
+                }
+                emailMessages.add(
+                        new Email(
+                                UUID.randomUUID().toString(),
+                                message.getSentDate().toString(),
+                                InternetAddress.toString(message.getFrom()),
+                                InternetAddress.toString(message.getRecipients(Message.RecipientType.TO)),
+                                InternetAddress.toString(message.getRecipients(Message.RecipientType.CC)),
+                                message.getSubject(),
+                                contentText
+                        )
+                );
+                // Mark this message as deleted when the session is closed
+                message.setFlag(Flags.Flag.DELETED, true);
+            }
+            storeNewMessages(emailMessages, false);
 
             folder.close(true);
             store.close();
@@ -90,75 +130,43 @@ public class EmailService implements IEmailService {
         catch (MessagingException e) {
         	System.out.println("Messages in POP3 Inbox could not be accessed" + e);
         }
+        
         // After appending new Emails to inbox file, get all Emails from inbox file
         return getEmailsFromInboxFile();
     }
 
     // Suppress unchecked warning since JSONObject inherits from HashMap, but does not allow ParameterTypes
     @SuppressWarnings("unchecked")
-    private static void storeNewMessages (Message[] messages) {
+    private static void storeNewMessages (ArrayList<Email> messages, boolean overwrite) {
     	
         // Reformat each message into JSON Object and append to file
-        for (Message msg : messages) {
+        for (Email msg : messages) {
         	
             FileWriter file = null;
             try {
                 JSONObject jsonEmail = new JSONObject();
                 
-                jsonEmail.put(JSON_ID, UUID.randomUUID().toString());
+                // Get and put contents
+                jsonEmail.put(JSON_ID, msg.getId());
+                jsonEmail.put(JSON_SENDER, msg.getSender());                               
+    			jsonEmail.put(JSON_RECEIVER, msg.getRecipents());
+    			jsonEmail.put(JSON_CC, msg.getCc());
+    			jsonEmail.put(JSON_SUBJECT, msg.getSubject());
+                jsonEmail.put(JSON_SENTDATE, msg.getSendDate());
+                jsonEmail.put(JSON_MESSAGE, msg.getMessage());
                 
-                // Get and put From
-                Address[] in = msg.getFrom();
-                for (Address address : in) {
-                	jsonEmail.put(JSON_SENDER, address.toString());
-                }
-                
-                Multipart mp = (Multipart) msg.getContent();
-    			
-                // Get and put To
-                String to = InternetAddress.toString(msg.getRecipients(Message.RecipientType.TO));
-                if (to != null) {
-                    jsonEmail.put(JSON_RECEIVER, to);
-                }
-                
-                // Get and put Cc
-                String cc = InternetAddress.toString(msg.getRecipients(Message.RecipientType.CC));
-                if (cc != null) {
-                    jsonEmail.put(JSON_CC, cc);
-                }
-
-                // Get and put Subject
-                String subject = msg.getSubject();
-                if (subject != null) {
-                    jsonEmail.put(JSON_SUBJECT, subject);
-                }
-
-                // Get and put SentDate
-                Date sent = msg.getSentDate();
-                if (sent != null) {
-                    jsonEmail.put(JSON_SENTDATE, sent.toString());
-                }
-                
-                BodyPart bp = mp.getBodyPart(0);
-                // Get and put Content
-                String content = bp.getContent().toString();
-                if (content != null) {
-                    jsonEmail.put(JSON_MESSAGE, content);
-                }
-                
-                
+               
                 // Write Email to JSON File
-                file = new FileWriter(model.MailPreferences.getMailPreferences().getInboxPath(), true);
+                if(overwrite){
+                	file = new FileWriter(model.MailPreferences.getMailPreferences().getInboxPath(), false);
+                }else{
+                	file = new FileWriter(model.MailPreferences.getMailPreferences().getInboxPath(), true);
+                }
                 file.append(jsonEmail.toJSONString());
                 file.append(System.getProperty("line.separator"));
                 file.flush();
                 file.close();
 
-                // Mark this message as deleted when the session is closed
-                msg.setFlag(Flags.Flag.DELETED, true);
-            }
-            catch (MessagingException msgEx) {
-                System.out.println("A message could not be stored to the JSON File " + msgEx);
             }
             catch (IOException ioEX) {
             	 System.out.println("JSON File could not be written" + ioEX);
@@ -166,7 +174,7 @@ public class EmailService implements IEmailService {
         }
         System.out.println("New messages stored to JSON");
     }
-
+    
     public static ArrayList<Email> getEmailsFromInboxFile() {
 
         ArrayList<JSONObject> jsonObjects  = new ArrayList<>();
@@ -185,18 +193,15 @@ public class EmailService implements IEmailService {
 
             // Convert JSON-Objects to Email-Objects
             for (JSONObject obj : jsonObjects) {
-
-                // Get receivers from message object
-                final String receivers       = (String) obj.get("to");
-                final String cc              = (String) obj.get("cc");
  
                 // Generate Email Object and add it to ArrayList of Email objects
                 emailObjects.add(
                 		new Email(
                 				UUID.randomUUID().toString(),
+                				(String) obj.get(JSON_SENTDATE),
                 				(String) obj.get(JSON_SENDER),
-                				receivers,
-                				cc,
+                				(String) obj.get(JSON_RECEIVER),
+                				(String) obj.get(JSON_CC),
                 				(String) obj.get(JSON_SUBJECT),
                 				(String) obj.get(JSON_MESSAGE)));
             }
@@ -281,5 +286,27 @@ public class EmailService implements IEmailService {
         catch (MessagingException e) {
         	System.out.println("Message not sent!" + e);
         }
+    }
+    public void removeEmail(Email mail) {
+        ArrayList<Email> boxMails = getEmailsFromInboxFile();
+        for (Iterator<Email> it = boxMails.iterator(); it.hasNext(); ) {
+            Email storedMail = it.next();
+            if (!storedMail.getId().equals(mail.getId())) {
+                it.remove();
+            }
+        }
+ 
+        try {
+            // Write Email to JSON File
+            FileWriter file;
+            file = new FileWriter(model.MailPreferences.getMailPreferences().getInboxPath());
+            file.append("");
+            file.flush();
+            file.close();
+        }
+        catch (IOException ioEX) {
+            System.out.println("JSON File could not be cleared" + ioEX);
+        }
+        storeNewMessages(boxMails, true);
     }
 }
